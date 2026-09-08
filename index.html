@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Bücherkeller</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="theme-color" content="#EFEFEA">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Bücherkeller">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="kopf">
+  <div class="kopf-marke">
+    <span class="marke">Bücherkeller</span>
+    <span class="kopf-station" id="kopf-station"></span>
+  </div>
+  <div class="kopf-zaehler">
+    <span class="zaehler"><b id="z-gesamt">0</b><span>Ereignisse</span></span>
+    <span class="zaehler" id="z-seit-huelle"><b id="z-seit">0</b><span>seit Sicherung</span></span>
+  </div>
+</header>
+
+<nav class="nav" id="nav" hidden>
+  <button type="button" class="nav-knopf" data-ziel="suche">Suche</button>
+  <button type="button" class="nav-knopf" data-ziel="bestand">Bestand</button>
+  <button type="button" class="nav-knopf" data-ziel="sicherung">Sicherung</button>
+  <button type="button" class="nav-knopf" data-ziel="einstellungen">Einstellungen</button>
+</nav>
+
+<main id="haupt">
+
+  <!-- 5.1 Start -->
+  <section class="sicht" id="v-start" hidden>
+    <h1 class="titel-gross">Gerät einrichten</h1>
+
+    <h2 class="feld-titel">Station</h2>
+    <div class="wahl-gross" id="start-stationen">
+      <button type="button" class="flaeche" data-station="1"><span class="flaeche-zahl">1</span><span class="flaeche-wort">Station</span></button>
+      <button type="button" class="flaeche" data-station="2"><span class="flaeche-zahl">2</span><span class="flaeche-wort">Station</span></button>
+      <button type="button" class="flaeche" data-station="3"><span class="flaeche-zahl">3</span><span class="flaeche-wort">Station</span></button>
+    </div>
+
+    <h2 class="feld-titel">Modus</h2>
+    <div class="wahl-gross zwei" id="start-modi">
+      <button type="button" class="flaeche" data-modus="ausgabe"><span class="flaeche-wort gross">Ausgabe</span><span class="flaeche-hinweis">Bücher werden herausgegeben</span></button>
+      <button type="button" class="flaeche" data-modus="rueckgabe"><span class="flaeche-wort gross">Rücknahme</span><span class="flaeche-hinweis">Bücher kommen zurück</span></button>
+    </div>
+
+    <button type="button" class="knopf-haupt" id="start-weiter" disabled>Weiter zur Suche</button>
+    <p class="fussnote" id="start-fussnote">Beides auswählen. Diese Auswahl wird gespeichert und beim nächsten Öffnen übersprungen.</p>
+  </section>
+
+  <!-- 5.2 Suche -->
+  <section class="sicht" id="v-suche" hidden>
+    <label class="suchfeld-huelle">
+      <span class="nur-vorleser">Schüler suchen</span>
+      <input id="suchfeld" type="search" inputmode="search" autocomplete="off" autocorrect="off"
+             autocapitalize="off" spellcheck="false" placeholder="Name eingeben">
+    </label>
+    <p class="such-meta" id="such-meta"></p>
+    <ol class="trefferliste" id="trefferliste"></ol>
+  </section>
+
+  <!-- 5.3 Schüler -->
+  <section class="sicht" id="v-schueler" hidden>
+    <div class="schueler-kopf">
+      <button type="button" class="knopf-zurueck" id="schueler-zurueck">Zurück</button>
+      <h1 class="schueler-name" id="schueler-name"></h1>
+      <p class="schueler-meta" id="schueler-meta"></p>
+      <div class="fortschritt">
+        <span class="fortschritt-text" id="fortschritt-text"></span>
+        <span class="fortschritt-schiene"><span class="fortschritt-balken" id="fortschritt-balken"></span></span>
+      </div>
+    </div>
+    <ul class="titelliste" id="titelliste"></ul>
+    <div class="anker-unten">
+      <button type="button" class="knopf-haupt" id="knopf-fertig">Fertig</button>
+    </div>
+  </section>
+
+  <!-- 5.4 Bestand -->
+  <section class="sicht" id="v-bestand" hidden>
+    <h1 class="titel-gross">Bestand</h1>
+    <p class="warnzeile" id="bestand-warnung"></p>
+    <div class="tabelle-huelle">
+      <table class="tabelle" id="bestand-tabelle">
+        <thead>
+          <tr>
+            <th class="links">Titel</th>
+            <th class="links">Fach</th>
+            <th>Gesamt</th>
+            <th>ausgegeben</th>
+            <th>zurück</th>
+            <th>fehlt</th>
+            <th>beschädigt</th>
+            <th>verfügbar</th>
+          </tr>
+        </thead>
+        <tbody id="bestand-koerper"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 5.5 Sicherung -->
+  <section class="sicht" id="v-sicherung" hidden>
+    <h1 class="titel-gross">Sicherung</h1>
+
+    <section class="block">
+      <h2 class="feld-titel">Sicherung erstellen</h2>
+      <p class="fliess">Legt eine Datei mit <b id="sicherung-anzahl">0</b> Ereignissen ab. Die Datei enthält immer alles bisher Erfasste. Die neueste Datei genügt zur vollständigen Wiederherstellung.</p>
+      <button type="button" class="knopf-haupt" id="knopf-export">Sicherung erstellen</button>
+      <p class="fussnote" id="sicherung-letzte"></p>
+    </section>
+
+    <hr class="haarlinie">
+
+    <section class="block">
+      <h2 class="feld-titel">Sicherung einlesen</h2>
+      <p class="fliess">Mehrere Dateien gleichzeitig möglich. Doppelte Ereignisse werden übersprungen. Damit werden abends auch die drei Stationen zusammengeführt.</p>
+      <input type="file" id="datei-eingabe" accept="application/json,.json" multiple class="datei-eingabe">
+      <button type="button" class="knopf-zweit" id="knopf-import">Dateien auswählen</button>
+      <p class="meldung" id="import-meldung" hidden></p>
+    </section>
+  </section>
+
+  <!-- Einstellungen -->
+  <section class="sicht" id="v-einstellungen" hidden>
+    <h1 class="titel-gross">Einstellungen</h1>
+
+    <section class="block">
+      <h2 class="feld-titel">Station</h2>
+      <p class="wert-gross" id="ein-station"></p>
+      <button type="button" class="knopf-zweit" id="knopf-station-wechseln">Station ändern</button>
+    </section>
+
+    <hr class="haarlinie">
+
+    <section class="block">
+      <h2 class="feld-titel">Modus</h2>
+      <p class="wert-gross" id="ein-modus"></p>
+      <button type="button" class="knopf-zweit" id="knopf-modus-wechseln">Modus wechseln</button>
+    </section>
+
+    <hr class="haarlinie">
+
+    <section class="block">
+      <h2 class="feld-titel">Speicher</h2>
+      <p class="fliess" id="ein-speicher"></p>
+    </section>
+
+    <hr class="haarlinie">
+
+    <section class="block">
+      <h2 class="feld-titel">Fassung</h2>
+      <p class="wert-gross" id="ein-version"></p>
+      <p class="fussnote">Diese Kennung muss auf allen drei iPads gleich sein.</p>
+    </section>
+
+    <hr class="haarlinie">
+
+    <section class="block">
+      <h2 class="feld-titel">Demo zurücksetzen</h2>
+      <p class="fliess">Löscht alle erfassten Ereignisse dieses Geräts. Nur für die Vorführung.</p>
+      <button type="button" class="knopf-warnung" id="knopf-reset">Demo zurücksetzen</button>
+    </section>
+  </section>
+
+</main>
+
+<div class="dialog-schicht" id="dialog-schicht" hidden>
+  <div class="dialog" id="dialog" role="dialog" aria-modal="true" aria-labelledby="dialog-titel">
+    <h2 class="dialog-titel" id="dialog-titel"></h2>
+    <div class="dialog-inhalt" id="dialog-inhalt"></div>
+    <div class="dialog-knoepfe" id="dialog-knoepfe"></div>
+  </div>
+</div>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

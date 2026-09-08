@@ -1,0 +1,361 @@
+/* Bücherkeller — Gestaltung nach Abschnitt 6 des Bauplans.
+   Papier, Schrift, ein Akzent, eine Warnfarbe. Haarlinien statt Rahmen.
+   Keine Karten, keine Schatten, keine abgerundeten Ecken. */
+
+@font-face {
+  font-family: "Plex Sans";
+  src: url("fonts/ibm-plex-sans-latin-400-normal.woff2") format("woff2");
+  font-weight: 400; font-style: normal; font-display: block;
+}
+@font-face {
+  font-family: "Plex Sans";
+  src: url("fonts/ibm-plex-sans-latin-600-normal.woff2") format("woff2");
+  font-weight: 600; font-style: normal; font-display: block;
+}
+@font-face {
+  font-family: "Plex Mono";
+  src: url("fonts/ibm-plex-mono-latin-400-normal.woff2") format("woff2");
+  font-weight: 400; font-style: normal; font-display: block;
+}
+@font-face {
+  font-family: "Plex Mono";
+  src: url("fonts/ibm-plex-mono-latin-600-normal.woff2") format("woff2");
+  font-weight: 600; font-style: normal; font-display: block;
+}
+
+:root {
+  --papier: #EFEFEA;
+  --schrift: #16150F;
+  --akzent: #4F5F3E;
+  --warnung: #8A3324;
+  --linie: rgba(22, 21, 15, 0.22);
+  --linie-zart: rgba(22, 21, 15, 0.12);
+  --gedaempft: rgba(22, 21, 15, 0.58);
+  --sans: "Plex Sans", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  --mono: "Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --rand: max(20px, env(safe-area-inset-left));
+  --rand-rechts: max(20px, env(safe-area-inset-right));
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0; padding: 0;
+  background: var(--papier);
+  color: var(--schrift);
+}
+body {
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.65;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior-y: contain;
+  padding-top: env(safe-area-inset-top);
+}
+
+/* Das hidden-Attribut muss jede eigene display-Regel schlagen, sonst
+   bleiben versteckte Bereiche sichtbar. */
+[hidden] { display: none !important; }
+
+button, input, select { font: inherit; color: inherit; }
+button { background: none; border: 0; padding: 0; cursor: pointer; }
+
+.nur-vorleser {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+}
+
+/* ---------- Kopfzeile ---------- */
+
+.kopf {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 16px; flex-wrap: wrap;
+  padding: 14px var(--rand-rechts) 12px var(--rand);
+  border-bottom: 1px solid var(--linie);
+}
+.marke {
+  font-family: var(--mono); font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.16em;
+  font-size: 15px;
+}
+.kopf-station {
+  font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.14em;
+  font-size: 13px; color: var(--gedaempft); margin-left: 14px;
+}
+.kopf-zaehler { display: flex; gap: 22px; }
+.zaehler {
+  font-family: var(--mono); font-size: 12px;
+  text-transform: uppercase; letter-spacing: 0.12em;
+  color: var(--gedaempft);
+  display: inline-flex; align-items: baseline; gap: 7px;
+}
+.zaehler b { font-size: 17px; font-weight: 600; color: var(--schrift); }
+.zaehler.mahnung b, .zaehler.mahnung { color: var(--warnung); }
+
+/* ---------- Navigation ---------- */
+
+.nav {
+  display: flex; gap: 0;
+  border-bottom: 1px solid var(--linie);
+  padding: 0 var(--rand-rechts) 0 var(--rand);
+  overflow-x: auto;
+}
+.nav-knopf {
+  font-family: var(--mono); font-size: 13px; font-weight: 400;
+  text-transform: uppercase; letter-spacing: 0.14em;
+  padding: 15px 0; margin-right: 30px;
+  color: var(--gedaempft);
+  border-bottom: 2px solid transparent;
+  min-height: 48px; white-space: nowrap;
+}
+.nav-knopf[aria-current="page"] {
+  color: var(--schrift); font-weight: 600;
+  border-bottom-color: var(--akzent);
+}
+
+/* ---------- Flächen ---------- */
+
+main { padding: 0 var(--rand-rechts) 0 var(--rand); }
+.sicht { padding: 26px 0 60px; max-width: 900px; }
+#v-schueler { padding-bottom: 140px; max-width: 900px; }
+#v-bestand { max-width: none; }
+
+.titel-gross {
+  font-family: var(--mono); font-weight: 600; font-size: 22px;
+  text-transform: uppercase; letter-spacing: 0.18em;
+  margin: 0 0 26px;
+}
+.feld-titel {
+  font-family: var(--mono); font-weight: 600; font-size: 12px;
+  text-transform: uppercase; letter-spacing: 0.18em;
+  color: var(--gedaempft);
+  margin: 0 0 12px;
+}
+.fliess { margin: 0 0 18px; max-width: 62ch; }
+.fussnote { font-size: 15px; color: var(--gedaempft); margin: 12px 0 0; max-width: 62ch; }
+.wert-gross { font-family: var(--mono); font-size: 20px; margin: 0 0 14px; }
+.haarlinie { border: 0; border-top: 1px solid var(--linie-zart); margin: 34px 0; }
+.block { margin-bottom: 6px; }
+
+/* ---------- Start ---------- */
+
+.wahl-gross { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--linie); border: 1px solid var(--linie); margin: 0 0 34px; }
+.wahl-gross.zwei { grid-template-columns: repeat(2, 1fr); }
+.flaeche {
+  background: var(--papier);
+  min-height: 130px; padding: 20px;
+  display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 4px;
+  text-align: left;
+}
+.flaeche[aria-pressed="true"] { background: var(--akzent); color: var(--papier); }
+.flaeche-zahl { font-family: var(--mono); font-size: 46px; font-weight: 600; line-height: 1; }
+.flaeche-wort { font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.18em; }
+.flaeche-wort.gross { font-size: 20px; letter-spacing: 0.14em; }
+.flaeche-hinweis { font-size: 15px; opacity: 0.75; }
+
+/* ---------- Knöpfe ---------- */
+
+.knopf-haupt, .knopf-zweit, .knopf-warnung {
+  font-family: var(--mono); font-size: 15px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.16em;
+  min-height: 62px; padding: 0 30px;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 100%; max-width: 460px;
+}
+.knopf-haupt { background: var(--akzent); color: var(--papier); border: 1px solid var(--akzent); }
+.knopf-haupt[disabled] { background: transparent; color: var(--gedaempft); border-color: var(--linie); }
+.knopf-zweit { background: transparent; color: var(--schrift); border: 1px solid var(--linie); }
+.knopf-warnung { background: transparent; color: var(--warnung); border: 1px solid var(--warnung); }
+.knopf-zurueck {
+  font-family: var(--mono); font-size: 13px; text-transform: uppercase; letter-spacing: 0.14em;
+  color: var(--gedaempft); min-height: 48px; padding-right: 20px;
+}
+.knopf-zurueck::before { content: "\2190\00a0\00a0"; }
+
+/* ---------- Suche ---------- */
+
+.suchfeld-huelle { display: block; }
+#suchfeld {
+  width: 100%; font-family: var(--sans); font-size: 30px; line-height: 1.3;
+  padding: 8px 0 18px; background: transparent;
+  border: 0; border-bottom: 2px solid var(--schrift);
+  border-radius: 0; -webkit-appearance: none; appearance: none;
+}
+#suchfeld::placeholder { color: rgba(22, 21, 15, 0.3); }
+#suchfeld::-webkit-search-cancel-button { -webkit-appearance: none; }
+#suchfeld:focus { outline: none; border-bottom-color: var(--akzent); }
+
+.such-meta {
+  font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.14em;
+  color: var(--gedaempft); margin: 14px 0 0;
+}
+.trefferliste { list-style: none; margin: 6px 0 0; padding: 0; }
+.treffer {
+  display: flex; align-items: center; gap: 18px;
+  width: 100%; min-height: 68px; padding: 12px 4px;
+  border-bottom: 1px solid var(--linie-zart); text-align: left;
+}
+.treffer-name { font-size: 20px; flex: 1 1 auto; }
+.treffer-name b { font-weight: 600; }
+.treffer-klasse {
+  font-family: var(--mono); font-size: 14px; letter-spacing: 0.1em;
+  color: var(--gedaempft); flex: 0 0 auto; width: 3.5em; text-align: right;
+}
+
+/* Statuspunkt: trägt Information, ist keine Verzierung. Rund, damit er
+   nicht mit dem eckigen Häkchen-Feld in der Schülerliste verwechselt wird. */
+.punkt { flex: 0 0 auto; width: 15px; height: 15px; border: 1px solid var(--schrift); border-radius: 50%; }
+.punkt.offen { background: transparent; }
+.punkt.teilweise { background: linear-gradient(to right, var(--akzent) 0 50%, transparent 50% 100%); border-color: var(--akzent); }
+.punkt.fertig { background: var(--akzent); border-color: var(--akzent); }
+
+/* ---------- Schüler ---------- */
+
+.schueler-kopf { border-bottom: 1px solid var(--linie); padding-bottom: 20px; margin-bottom: 4px; }
+.schueler-name { font-size: 30px; font-weight: 600; margin: 4px 0 2px; line-height: 1.2; }
+.schueler-meta {
+  font-family: var(--mono); font-size: 13px; text-transform: uppercase; letter-spacing: 0.14em;
+  color: var(--gedaempft); margin: 0 0 16px;
+}
+.fortschritt { display: flex; align-items: center; gap: 16px; }
+.fortschritt-text {
+  font-family: var(--mono); font-size: 15px; font-weight: 600;
+  letter-spacing: 0.1em; white-space: nowrap;
+}
+.fortschritt-schiene { flex: 1 1 auto; height: 3px; background: var(--linie-zart); }
+.fortschritt-balken { display: block; height: 3px; width: 0; background: var(--akzent); }
+
+.titelliste { list-style: none; margin: 0; padding: 0; }
+.titelzeile { display: flex; align-items: stretch; border-bottom: 1px solid var(--linie-zart); }
+
+.titel-schalter {
+  flex: 1 1 auto; min-height: 64px;
+  display: flex; align-items: center; gap: 18px;
+  padding: 12px 12px 12px 4px; text-align: left;
+}
+.haken {
+  flex: 0 0 auto; width: 26px; height: 26px;
+  border: 1px solid var(--schrift);
+  display: flex; align-items: center; justify-content: center;
+}
+.haken::after { content: ""; display: block; width: 14px; height: 14px; background: transparent; }
+.titel-schalter[aria-pressed="true"] .haken { border-color: var(--akzent); background: var(--akzent); }
+.titel-schalter[aria-pressed="true"] .haken::after { background: var(--papier); }
+.titel-text { flex: 1 1 auto; }
+.titel-name { font-size: 19px; line-height: 1.35; }
+.titel-fach {
+  font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.14em;
+  color: var(--gedaempft);
+}
+.titel-zustand {
+  font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.14em;
+  color: var(--akzent);
+}
+.titelzeile.problem .haken { border-color: var(--warnung); background: transparent; }
+.titelzeile.problem .titel-zustand { color: var(--warnung); }
+.titelzeile.problem .titel-schalter[aria-pressed="true"] .haken { background: var(--warnung); border-color: var(--warnung); }
+.titelzeile.wartet { opacity: 0.45; }
+.titelzeile.schreibfehler { background: rgba(138, 51, 36, 0.12); }
+.titelzeile.schreibfehler .titel-zustand { color: var(--warnung); }
+
+.knopf-problem {
+  flex: 0 0 auto; min-width: 96px; min-height: 64px;
+  border-left: 1px solid var(--linie-zart);
+  font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.14em;
+  color: var(--gedaempft);
+}
+
+.anker-unten {
+  position: fixed; left: 0; right: 0; bottom: 0;
+  background: var(--papier); border-top: 1px solid var(--linie);
+  padding: 12px var(--rand-rechts) calc(12px + env(safe-area-inset-bottom)) var(--rand);
+}
+.anker-unten .knopf-haupt { max-width: none; }
+
+/* ---------- Bestand ---------- */
+
+.warnzeile {
+  font-family: var(--mono); font-size: 13px; text-transform: uppercase; letter-spacing: 0.12em;
+  color: var(--warnung); border-top: 1px solid var(--warnung); border-bottom: 1px solid var(--warnung);
+  padding: 12px 0; margin: 0 0 24px; line-height: 1.5;
+}
+.tabelle-huelle { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.tabelle { border-collapse: collapse; width: 100%; min-width: 760px; }
+.tabelle th {
+  font-family: var(--mono); font-size: 11px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.12em; color: var(--gedaempft);
+  text-align: right; padding: 10px 14px 10px 0; border-bottom: 1px solid var(--linie);
+  white-space: nowrap;
+}
+.tabelle th.links, .tabelle td.links { text-align: left; }
+.tabelle td {
+  text-align: right; padding: 13px 14px 13px 0;
+  border-bottom: 1px solid var(--linie-zart);
+  font-family: var(--mono); font-size: 16px; white-space: nowrap;
+}
+.tabelle td.links { font-family: var(--sans); white-space: normal; }
+.tabelle td.knapp { color: var(--warnung); font-weight: 600; }
+.tabelle tbody tr:last-child td { border-bottom: 1px solid var(--linie); }
+
+/* ---------- Sicherung ---------- */
+
+.datei-eingabe { position: absolute; left: -9999px; }
+.meldung {
+  font-family: var(--mono); font-size: 15px; line-height: 1.6;
+  border-left: 2px solid var(--akzent); padding: 10px 0 10px 16px; margin: 20px 0 0;
+}
+.meldung.fehler { border-left-color: var(--warnung); color: var(--warnung); }
+
+/* ---------- Dialog ---------- */
+
+.dialog-schicht {
+  position: fixed; inset: 0; background: rgba(22, 21, 15, 0.55);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px; z-index: 50;
+}
+.dialog {
+  background: var(--papier); border: 1px solid var(--schrift);
+  width: 100%; max-width: 560px; max-height: 88vh; overflow-y: auto;
+  padding: 30px 28px 26px;
+}
+.dialog-titel {
+  font-family: var(--mono); font-size: 17px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.16em; margin: 0 0 18px; line-height: 1.4;
+}
+.dialog-inhalt { margin-bottom: 26px; }
+.dialog-inhalt p { margin: 0 0 14px; }
+.dialog-inhalt p:last-child { margin-bottom: 0; }
+.dialog-knoepfe { display: flex; flex-direction: column; gap: 12px; }
+.dialog-knoepfe .knopf-haupt,
+.dialog-knoepfe .knopf-zweit,
+.dialog-knoepfe .knopf-warnung { max-width: none; }
+.dialog.warnung { border-color: var(--warnung); border-width: 2px; }
+.dialog.warnung .dialog-titel { color: var(--warnung); }
+
+.dialog-eingabe {
+  width: 100%; font-size: 19px; padding: 14px 12px;
+  background: transparent; border: 1px solid var(--linie); border-radius: 0;
+  -webkit-appearance: none; appearance: none;
+}
+.dialog-eingabe:focus { outline: none; border-color: var(--akzent); }
+.dialog-liste { list-style: none; margin: 0 0 18px; padding: 0; }
+.dialog-liste li { border-bottom: 1px solid var(--linie-zart); padding: 8px 0; font-size: 17px; }
+
+/* ---------- Bewegung ---------- */
+
+.titel-schalter .haken,
+.flaeche { transition: background-color 120ms linear, color 120ms linear, border-color 120ms linear; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
+
+/* ---------- Hochformat / schmal ---------- */
+
+@media (max-width: 620px) {
+  .wahl-gross.zwei { grid-template-columns: 1fr; }
+  .kopf-zaehler { gap: 16px; }
+  .schueler-name { font-size: 26px; }
+  #suchfeld { font-size: 24px; }
+}

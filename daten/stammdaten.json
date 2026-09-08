@@ -1,0 +1,1776 @@
+{
+  "version": 1,
+  "schuljahr": "2026/27",
+  "hinweis": "Erfundene Testdaten. Keine realen Personen.",
+  "schueler": [
+    {
+      "id": "s-0001",
+      "nachname": "Cordes",
+      "vorname": "Malin",
+      "klasse": "5a",
+      "stufe": 5,
+      "kurse": [
+        "rel"
+      ]
+    },
+    {
+      "id": "s-0002",
+      "nachname": "Rieckhoff",
+      "vorname": "Romy",
+      "klasse": "5a",
+      "stufe": 5,
+      "kurse": [
+        "eth"
+      ]
+    },
+    {
+      "id": "s-0003",
+      "nachname": "Tannhäuser",
+      "vorname": "Tamme",
+      "klasse": "5a",
+      "stufe": 5,
+      "kurse": [
+        "rel"
+      ]
+    },
+    {
+      "id": "s-0004",
+      "nachname": "Perlbach",
+      "vorname": "Selma",
+      "klasse": "5a",
+      "stufe": 5,
+      "kurse": [
+        "eth"
+      ]
+    },
+    {
+      "id": "s-0005",
+      "nachname": "Bergmann",
+      "vorname": "Anton",
+      "klasse": "5a",
+      "stufe": 5,
+      "kurse": [
+        "rel"
+      ]
+    },
+    {
+      "id": "s-0006",
+      "nachname": "Kaltenbrunn",
+      "vorname": "Clara",
+      "klasse": "5a",
+      "stufe": 5,
+      "kurse": [
+        "eth"
+      ]
+    },
+    {
+      "id": "s-0007",
+      "nachname": "Nesselrode",
+      "vorname": "Milo",
+      "klasse": "5a",
+      "stufe": 5,
+      "kurse": [
+        "rel"
+      ]
+    },
+    {
+      "id": "s-0008",
+      "nachname": "Angermann",
+      "vorname": "Neele",
+      "klasse": "5a",
+      "stufe": 5,
+      "kurse": [
+        "eth"
+      ]
+    },
+    {
+      "id": "s-0009",
+      "nachname": "Gerstenkorn",
+      "vorname": "Oskar",
+      "klasse": "5a",
+      "stufe": 5,
+      "kurse": [
+        "rel"
+      ]
+    },
+    {
+      "id": "s-0010",
+      "nachname": "Zangerle",
+      "vorname": "Mika",
+      "klasse": "5a",
+      "stufe": 5,
+      "kurse": [
+        "eth"
+      ]
+    },
+    {
+      "id": "s-0011",
+      "nachname": "Bodenstein",
+      "vorname": "Yara",
+      "klasse": "5a",
+      "stufe": 5,
+      "kurse": [
+        "rel"
+      ]
+    },
+    {
+      "id": "s-0012",
+      "nachname": "Wemhöner",
+      "vorname": "Marlene",
+      "klasse": "5a",
+      "stufe": 5,
+      "kurse": [
+        "eth"
+      ]
+    },
+    {
+      "id": "s-0013",
+      "nachname": "Sattler",
+      "vorname": "Lia",
+      "klasse": "5a",
+      "stufe": 5,
+      "kurse": [
+        "rel"
+      ]
+    },
+    {
+      "id": "s-0014",
+      "nachname": "Ellwanger",
+      "vorname": "Levin",
+      "klasse": "5a",
+      "stufe": 5,
+      "kurse": [
+        "eth"
+      ]
+    },
+    {
+      "id": "s-0015",
+      "nachname": "Mühlbauer",
+      "vorname": "Greta",
+      "klasse": "5a",
+      "stufe": 5,
+      "kurse": [
+        "rel"
+      ]
+    },
+    {
+      "id": "s-0016",
+      "nachname": "Nesselrode",
+      "vorname": "Deniz",
+      "klasse": "5a",
+      "stufe": 5,
+      "kurse": [
+        "eth"
+      ]
+    },
+    {
+      "id": "s-0017",
+      "nachname": "Hufnagel",
+      "vorname": "Marlene",
+      "klasse": "5a",
+      "stufe": 5,
+      "kurse": [
+        "rel"
+      ]
+    },
+    {
+      "id": "s-0018",
+      "nachname": "Kellermann",
+      "vorname": "Malin",
+      "klasse": "5a",
+      "stufe": 5,
+      "kurse": [
+        "eth"
+      ]
+    },
+    {
+      "id": "s-0019",
+      "nachname": "Steinhauer",
+      "vorname": "Thies",
+      "klasse": "5a",
+      "stufe": 5,
+      "kurse": [
+        "rel"
+      ]
+    },
+    {
+      "id": "s-0020",
+      "nachname": "Steinhauer",
+      "vorname": "Amira",
+      "klasse": "5a",
+      "stufe": 5,
+      "kurse": [
+        "eth"
+      ]
+    },
+    {
+      "id": "s-0021",
+      "nachname": "Gerlach",
+      "vorname": "Pia",
+      "klasse": "5a",
+      "stufe": 5,
+      "kurse": [
+        "rel"
+      ]
+    },
+    {
+      "id": "s-0022",
+      "nachname": "Rebenstock",
+      "vorname": "Emma",
+      "klasse": "5a",
+      "stufe": 5,
+      "kurse": [
+        "eth"
+      ]
+    },
+    {
+      "id": "s-0023",
+      "nachname": "Oberländer",
+      "vorname": "Henry",
+      "klasse": "5a",
+      "stufe": 5,
+      "kurse": [
+        "rel"
+      ]
+    },
+    {
+      "id": "s-0024",
+      "nachname": "Voigt",
+      "vorname": "Clara",
+      "klasse": "5a",
+      "stufe": 5,
+      "kurse": [
+        "eth"
+      ]
+    },
+    {
+      "id": "s-0025",
+      "nachname": "Uhlmann",
+      "vorname": "Alma",
+      "klasse": "5a",
+      "stufe": 5,
+      "kurse": [
+        "rel"
+      ]
+    },
+    {
+      "id": "s-0026",
+      "nachname": "Zangerle",
+      "vorname": "Yara",
+      "klasse": "5b",
+      "stufe": 5,
+      "kurse": [
+        "rel"
+      ]
+    },
+    {
+      "id": "s-0027",
+      "nachname": "Junghans",
+      "vorname": "Ida",
+      "klasse": "5b",
+      "stufe": 5,
+      "kurse": [
+        "eth"
+      ]
+    },
+    {
+      "id": "s-0028",
+      "nachname": "Hasselbach",
+      "vorname": "Fiete",
+      "klasse": "5b",
+      "stufe": 5,
+      "kurse": [
+        "rel"
+      ]
+    },
+    {
+      "id": "s-0029",
+      "nachname": "Rebenstock",
+      "vorname": "Arne",
+      "klasse": "5b",
+      "stufe": 5,
+      "kurse": [
+        "eth"
+      ]
+    },
+    {
+      "id": "s-0030",
+      "nachname": "Junghans",
+      "vorname": "Jörn",
+      "klasse": "5b",
+      "stufe": 5,
+      "kurse": [
+        "rel"
+      ]
+    },
+    {
+      "id": "s-0031",
+      "nachname": "Löwenhagen",
+      "vorname": "Jost",
+      "klasse": "5b",
+      "stufe": 5,
+      "kurse": [
+        "eth"
+      ]
+    },
+    {
+      "id": "s-0032",
+      "nachname": "Zöllner",
+      "vorname": "Mareike",
+      "klasse": "5b",
+      "stufe": 5,
+      "kurse": [
+        "rel"
+      ]
+    },
+    {
+      "id": "s-0033",
+      "nachname": "Kienbaum",
+      "vorname": "Mika",
+      "klasse": "5b",
+      "stufe": 5,
+      "kurse": [
+        "eth"
+      ]
+    },
+    {
+      "id": "s-0034",
+      "nachname": "Uhlmann",
+      "vorname": "Romy",
+      "klasse": "5b",
+      "stufe": 5,
+      "kurse": [
+        "rel"
+      ]
+    },
+    {
+      "id": "s-0035",
+      "nachname": "Mahlberg",
+      "vorname": "Ida",
+      "klasse": "5b",
+      "stufe": 5,
+      "kurse": [
+        "eth"
+      ]
+    },
+    {
+      "id": "s-0036",
+      "nachname": "Cranach",
+      "vorname": "Anton",
+      "klasse": "5b",
+      "stufe": 5,
+      "kurse": [
+        "rel"
+      ]
+    },
+    {
+      "id": "s-0037",
+      "nachname": "Sattler",
+      "vorname": "Sören",
+      "klasse": "5b",
+      "stufe": 5,
+      "kurse": [
+        "eth"
+      ]
+    },
+    {
+      "id": "s-0038",
+      "nachname": "Vollrath",
+      "vorname": "Bruno",
+      "klasse": "5b",
+      "stufe": 5,
+      "kurse": [
+        "rel"
+      ]
+    },
+    {
+      "id": "s-0039",
+      "nachname": "Maibaum",
+      "vorname": "Pia",
+      "klasse": "5b",
+      "stufe": 5,
+      "kurse": [
+        "eth"
+      ]
+    },
+    {
+      "id": "s-0040",
+      "nachname": "Halbach",
+      "vorname": "Jaron",
+      "klasse": "5b",
+      "stufe": 5,
+      "kurse": [
+        "rel"
+      ]
+    },
+    {
+      "id": "s-0041",
+      "nachname": "Dietrich",
+      "vorname": "Toni",
+      "klasse": "5b",
+      "stufe": 5,
+      "kurse": [
+        "eth"
+      ]
+    },
+    {
+      "id": "s-0042",
+      "nachname": "Kellermann",
+      "vorname": "Bela",
+      "klasse": "5b",
+      "stufe": 5,
+      "kurse": [
+        "rel"
+      ]
+    },
+    {
+      "id": "s-0043",
+      "nachname": "Lindtner",
+      "vorname": "Bosse",
+      "klasse": "5b",
+      "stufe": 5,
+      "kurse": [
+        "eth"
+      ]
+    },
+    {
+      "id": "s-0044",
+      "nachname": "Oppenrieder",
+      "vorname": "Romy",
+      "klasse": "5b",
+      "stufe": 5,
+      "kurse": [
+        "rel"
+      ]
+    },
+    {
+      "id": "s-0045",
+      "nachname": "Vollrath",
+      "vorname": "Ida",
+      "klasse": "5b",
+      "stufe": 5,
+      "kurse": [
+        "eth"
+      ]
+    },
+    {
+      "id": "s-0046",
+      "nachname": "Lindtner",
+      "vorname": "Mila",
+      "klasse": "5b",
+      "stufe": 5,
+      "kurse": [
+        "rel"
+      ]
+    },
+    {
+      "id": "s-0047",
+      "nachname": "Junghans",
+      "vorname": "Jaron",
+      "klasse": "5b",
+      "stufe": 5,
+      "kurse": [
+        "eth"
+      ]
+    },
+    {
+      "id": "s-0048",
+      "nachname": "Sonnenschein",
+      "vorname": "Levin",
+      "klasse": "5b",
+      "stufe": 5,
+      "kurse": [
+        "rel"
+      ]
+    },
+    {
+      "id": "s-0049",
+      "nachname": "Haberkorn",
+      "vorname": "Fynn",
+      "klasse": "5b",
+      "stufe": 5,
+      "kurse": [
+        "eth"
+      ]
+    },
+    {
+      "id": "s-0050",
+      "nachname": "Vahlbruch",
+      "vorname": "Juna",
+      "klasse": "5b",
+      "stufe": 5,
+      "kurse": [
+        "rel"
+      ]
+    },
+    {
+      "id": "s-0051",
+      "nachname": "Thelen",
+      "vorname": "Mats",
+      "klasse": "5c",
+      "stufe": 5,
+      "kurse": [
+        "rel"
+      ]
+    },
+    {
+      "id": "s-0052",
+      "nachname": "Trautwein",
+      "vorname": "Lena",
+      "klasse": "5c",
+      "stufe": 5,
+      "kurse": [
+        "eth"
+      ]
+    },
+    {
+      "id": "s-0053",
+      "nachname": "Brenner",
+      "vorname": "Jasper",
+      "klasse": "5c",
+      "stufe": 5,
+      "kurse": [
+        "rel"
+      ]
+    },
+    {
+      "id": "s-0054",
+      "nachname": "Erlenbusch",
+      "vorname": "Runa",
+      "klasse": "5c",
+      "stufe": 5,
+      "kurse": [
+        "eth"
+      ]
+    },
+    {
+      "id": "s-0055",
+      "nachname": "Bodenstein",
+      "vorname": "Bosse",
+      "klasse": "5c",
+      "stufe": 5,
+      "kurse": [
+        "rel"
+      ]
+    },
+    {
+      "id": "s-0056",
+      "nachname": "Übelacker",
+      "vorname": "Neele",
+      "klasse": "5c",
+      "stufe": 5,
+      "kurse": [
+        "eth"
+      ]
+    },
+    {
+      "id": "s-0057",
+      "nachname": "Schuricht",
+      "vorname": "Ida",
+      "klasse": "5c",
+      "stufe": 5,
+      "kurse": [
+        "rel"
+      ]
+    },
+    {
+      "id": "s-0058",
+      "nachname": "Rieckhoff",
+      "vorname": "Amira",
+      "klasse": "5c",
+      "stufe": 5,
+      "kurse": [
+        "eth"
+      ]
+    },
+    {
+      "id": "s-0059",
+      "nachname": "Hufnagel",
+      "vorname": "Milo",
+      "klasse": "5c",
+      "stufe": 5,
+      "kurse": [
+        "rel"
+      ]
+    },
+    {
+      "id": "s-0060",
+      "nachname": "Weinhold",
+      "vorname": "Henry",
+      "klasse": "5c",
+      "stufe": 5,
+      "kurse": [
+        "eth"
+      ]
+    },
+    {
+      "id": "s-0061",
+      "nachname": "Brüggemann",
+      "vorname": "Jasper",
+      "klasse": "5c",
+      "stufe": 5,
+      "kurse": [
+        "rel"
+      ]
+    },
+    {
+      "id": "s-0062",
+      "nachname": "Gerlach",
+      "vorname": "Piet",
+      "klasse": "5c",
+      "stufe": 5,
+      "kurse": [
+        "eth"
+      ]
+    },
+    {
+      "id": "s-0063",
+      "nachname": "Uhlmann",
+      "vorname": "Sören",
+      "klasse": "5c",
+      "stufe": 5,
+      "kurse": [
+        "rel"
+      ]
+    },
+    {
+      "id": "s-0064",
+      "nachname": "Schuricht",
+      "vorname": "Karl",
+      "klasse": "5c",
+      "stufe": 5,
+      "kurse": [
+        "eth"
+      ]
+    },
+    {
+      "id": "s-0065",
+      "nachname": "Steinhauer",
+      "vorname": "Juna",
+      "klasse": "5c",
+      "stufe": 5,
+      "kurse": [
+        "rel"
+      ]
+    },
+    {
+      "id": "s-0066",
+      "nachname": "Grothe",
+      "vorname": "Anton",
+      "klasse": "5c",
+      "stufe": 5,
+      "kurse": [
+        "eth"
+      ]
+    },
+    {
+      "id": "s-0067",
+      "nachname": "Gerlach",
+      "vorname": "Arne",
+      "klasse": "5c",
+      "stufe": 5,
+      "kurse": [
+        "rel"
+      ]
+    },
+    {
+      "id": "s-0068",
+      "nachname": "Büchner",
+      "vorname": "Lia",
+      "klasse": "5c",
+      "stufe": 5,
+      "kurse": [
+        "eth"
+      ]
+    },
+    {
+      "id": "s-0069",
+      "nachname": "Jungbluth",
+      "vorname": "Bela",
+      "klasse": "5c",
+      "stufe": 5,
+      "kurse": [
+        "rel"
+      ]
+    },
+    {
+      "id": "s-0070",
+      "nachname": "Dallmann",
+      "vorname": "Jörn",
+      "klasse": "5c",
+      "stufe": 5,
+      "kurse": [
+        "eth"
+      ]
+    },
+    {
+      "id": "s-0071",
+      "nachname": "Imhoff",
+      "vorname": "Romy",
+      "klasse": "5c",
+      "stufe": 5,
+      "kurse": [
+        "rel"
+      ]
+    },
+    {
+      "id": "s-0072",
+      "nachname": "Rothenberger",
+      "vorname": "Romy",
+      "klasse": "5c",
+      "stufe": 5,
+      "kurse": [
+        "eth"
+      ]
+    },
+    {
+      "id": "s-0073",
+      "nachname": "Jungbluth",
+      "vorname": "Juna",
+      "klasse": "5c",
+      "stufe": 5,
+      "kurse": [
+        "rel"
+      ]
+    },
+    {
+      "id": "s-0074",
+      "nachname": "Zeitler",
+      "vorname": "Nora",
+      "klasse": "5c",
+      "stufe": 5,
+      "kurse": [
+        "eth"
+      ]
+    },
+    {
+      "id": "s-0075",
+      "nachname": "Sattler",
+      "vorname": "Charlotte",
+      "klasse": "5c",
+      "stufe": 5,
+      "kurse": [
+        "rel"
+      ]
+    },
+    {
+      "id": "s-0076",
+      "nachname": "Grothe",
+      "vorname": "Nele",
+      "klasse": "9a",
+      "stufe": 9,
+      "kurse": [
+        "rel",
+        "la"
+      ]
+    },
+    {
+      "id": "s-0077",
+      "nachname": "Reinhold",
+      "vorname": "Mila",
+      "klasse": "9a",
+      "stufe": 9,
+      "kurse": [
+        "eth",
+        "fr"
+      ]
+    },
+    {
+      "id": "s-0078",
+      "nachname": "Wemhöner",
+      "vorname": "Charlotte",
+      "klasse": "9a",
+      "stufe": 9,
+      "kurse": [
+        "rel",
+        "fr"
+      ]
+    },
+    {
+      "id": "s-0079",
+      "nachname": "Mahlberg",
+      "vorname": "Mila",
+      "klasse": "9a",
+      "stufe": 9,
+      "kurse": [
+        "eth",
+        "la"
+      ]
+    },
+    {
+      "id": "s-0080",
+      "nachname": "Heidenreich",
+      "vorname": "Karl",
+      "klasse": "9a",
+      "stufe": 9,
+      "kurse": [
+        "rel",
+        "fr"
+      ]
+    },
+    {
+      "id": "s-0081",
+      "nachname": "Sattler",
+      "vorname": "Johanna",
+      "klasse": "9a",
+      "stufe": 9,
+      "kurse": [
+        "eth",
+        "fr"
+      ]
+    },
+    {
+      "id": "s-0082",
+      "nachname": "Bodenstein",
+      "vorname": "Hedda",
+      "klasse": "9a",
+      "stufe": 9,
+      "kurse": [
+        "rel",
+        "la"
+      ]
+    },
+    {
+      "id": "s-0083",
+      "nachname": "Trautwein",
+      "vorname": "Frieda",
+      "klasse": "9a",
+      "stufe": 9,
+      "kurse": [
+        "eth",
+        "fr"
+      ]
+    },
+    {
+      "id": "s-0084",
+      "nachname": "Halbach",
+      "vorname": "Hendrik",
+      "klasse": "9a",
+      "stufe": 9,
+      "kurse": [
+        "rel",
+        "fr"
+      ]
+    },
+    {
+      "id": "s-0085",
+      "nachname": "Thelen",
+      "vorname": "Linus",
+      "klasse": "9a",
+      "stufe": 9,
+      "kurse": [
+        "eth",
+        "la"
+      ]
+    },
+    {
+      "id": "s-0086",
+      "nachname": "Dietrich",
+      "vorname": "Nele",
+      "klasse": "9a",
+      "stufe": 9,
+      "kurse": [
+        "rel",
+        "fr"
+      ]
+    },
+    {
+      "id": "s-0087",
+      "nachname": "Schöller",
+      "vorname": "Arne",
+      "klasse": "9a",
+      "stufe": 9,
+      "kurse": [
+        "eth",
+        "fr"
+      ]
+    },
+    {
+      "id": "s-0088",
+      "nachname": "Wemhöner",
+      "vorname": "Greta",
+      "klasse": "9a",
+      "stufe": 9,
+      "kurse": [
+        "rel",
+        "la"
+      ]
+    },
+    {
+      "id": "s-0089",
+      "nachname": "Ahrenkiel",
+      "vorname": "Silas",
+      "klasse": "9a",
+      "stufe": 9,
+      "kurse": [
+        "eth",
+        "fr"
+      ]
+    },
+    {
+      "id": "s-0090",
+      "nachname": "Weinhold",
+      "vorname": "Linus",
+      "klasse": "9a",
+      "stufe": 9,
+      "kurse": [
+        "rel",
+        "fr"
+      ]
+    },
+    {
+      "id": "s-0091",
+      "nachname": "Sattler",
+      "vorname": "Levi",
+      "klasse": "9a",
+      "stufe": 9,
+      "kurse": [
+        "eth",
+        "la"
+      ]
+    },
+    {
+      "id": "s-0092",
+      "nachname": "Kienbaum",
+      "vorname": "Deniz",
+      "klasse": "9a",
+      "stufe": 9,
+      "kurse": [
+        "rel",
+        "fr"
+      ]
+    },
+    {
+      "id": "s-0093",
+      "nachname": "Maibaum",
+      "vorname": "Bruno",
+      "klasse": "9a",
+      "stufe": 9,
+      "kurse": [
+        "eth",
+        "fr"
+      ]
+    },
+    {
+      "id": "s-0094",
+      "nachname": "Reinhold",
+      "vorname": "Pia",
+      "klasse": "9a",
+      "stufe": 9,
+      "kurse": [
+        "rel",
+        "la"
+      ]
+    },
+    {
+      "id": "s-0095",
+      "nachname": "Maibaum",
+      "vorname": "Milo",
+      "klasse": "9a",
+      "stufe": 9,
+      "kurse": [
+        "eth",
+        "fr"
+      ]
+    },
+    {
+      "id": "s-0096",
+      "nachname": "Übelacker",
+      "vorname": "Selma",
+      "klasse": "9a",
+      "stufe": 9,
+      "kurse": [
+        "rel",
+        "fr"
+      ]
+    },
+    {
+      "id": "s-0097",
+      "nachname": "Schuricht",
+      "vorname": "Fynn",
+      "klasse": "9a",
+      "stufe": 9,
+      "kurse": [
+        "eth",
+        "la"
+      ]
+    },
+    {
+      "id": "s-0098",
+      "nachname": "Ellwanger",
+      "vorname": "Greta",
+      "klasse": "9a",
+      "stufe": 9,
+      "kurse": [
+        "rel",
+        "fr"
+      ]
+    },
+    {
+      "id": "s-0099",
+      "nachname": "Mühlbauer",
+      "vorname": "Mila",
+      "klasse": "9a",
+      "stufe": 9,
+      "kurse": [
+        "eth",
+        "fr"
+      ]
+    },
+    {
+      "id": "s-0100",
+      "nachname": "Rieckhoff",
+      "vorname": "Jörn",
+      "klasse": "9a",
+      "stufe": 9,
+      "kurse": [
+        "rel",
+        "la"
+      ]
+    },
+    {
+      "id": "s-0101",
+      "nachname": "Lohmeyer",
+      "vorname": "Elif",
+      "klasse": "9b",
+      "stufe": 9,
+      "kurse": [
+        "rel",
+        "la"
+      ]
+    },
+    {
+      "id": "s-0102",
+      "nachname": "Cordes",
+      "vorname": "Bruno",
+      "klasse": "9b",
+      "stufe": 9,
+      "kurse": [
+        "eth",
+        "fr"
+      ]
+    },
+    {
+      "id": "s-0103",
+      "nachname": "Lemberger",
+      "vorname": "Mika",
+      "klasse": "9b",
+      "stufe": 9,
+      "kurse": [
+        "rel",
+        "fr"
+      ]
+    },
+    {
+      "id": "s-0104",
+      "nachname": "Junghans",
+      "vorname": "Malin",
+      "klasse": "9b",
+      "stufe": 9,
+      "kurse": [
+        "eth",
+        "la"
+      ]
+    },
+    {
+      "id": "s-0105",
+      "nachname": "Weinhold",
+      "vorname": "Tamme",
+      "klasse": "9b",
+      "stufe": 9,
+      "kurse": [
+        "rel",
+        "fr"
+      ]
+    },
+    {
+      "id": "s-0106",
+      "nachname": "Düwel",
+      "vorname": "Levin",
+      "klasse": "9b",
+      "stufe": 9,
+      "kurse": [
+        "eth",
+        "fr"
+      ]
+    },
+    {
+      "id": "s-0107",
+      "nachname": "Brüggemann",
+      "vorname": "Nuri",
+      "klasse": "9b",
+      "stufe": 9,
+      "kurse": [
+        "rel",
+        "la"
+      ]
+    },
+    {
+      "id": "s-0108",
+      "nachname": "Zangerle",
+      "vorname": "Käthe",
+      "klasse": "9b",
+      "stufe": 9,
+      "kurse": [
+        "eth",
+        "fr"
+      ]
+    },
+    {
+      "id": "s-0109",
+      "nachname": "Gerstenkorn",
+      "vorname": "Arne",
+      "klasse": "9b",
+      "stufe": 9,
+      "kurse": [
+        "rel",
+        "fr"
+      ]
+    },
+    {
+      "id": "s-0110",
+      "nachname": "Schöller",
+      "vorname": "Theo",
+      "klasse": "9b",
+      "stufe": 9,
+      "kurse": [
+        "eth",
+        "la"
+      ]
+    },
+    {
+      "id": "s-0111",
+      "nachname": "Pfeiffer",
+      "vorname": "Mareike",
+      "klasse": "9b",
+      "stufe": 9,
+      "kurse": [
+        "rel",
+        "fr"
+      ]
+    },
+    {
+      "id": "s-0112",
+      "nachname": "Fahrenkamp",
+      "vorname": "Elif",
+      "klasse": "9b",
+      "stufe": 9,
+      "kurse": [
+        "eth",
+        "fr"
+      ]
+    },
+    {
+      "id": "s-0113",
+      "nachname": "Quandt",
+      "vorname": "Elif",
+      "klasse": "9b",
+      "stufe": 9,
+      "kurse": [
+        "rel",
+        "la"
+      ]
+    },
+    {
+      "id": "s-0114",
+      "nachname": "Brüggemann",
+      "vorname": "Mila",
+      "klasse": "9b",
+      "stufe": 9,
+      "kurse": [
+        "eth",
+        "fr"
+      ]
+    },
+    {
+      "id": "s-0115",
+      "nachname": "Kästner",
+      "vorname": "Arne",
+      "klasse": "9b",
+      "stufe": 9,
+      "kurse": [
+        "rel",
+        "fr"
+      ]
+    },
+    {
+      "id": "s-0116",
+      "nachname": "Ostermann",
+      "vorname": "Hendrik",
+      "klasse": "9b",
+      "stufe": 9,
+      "kurse": [
+        "eth",
+        "la"
+      ]
+    },
+    {
+      "id": "s-0117",
+      "nachname": "Mahlberg",
+      "vorname": "Frieda",
+      "klasse": "9b",
+      "stufe": 9,
+      "kurse": [
+        "rel",
+        "fr"
+      ]
+    },
+    {
+      "id": "s-0118",
+      "nachname": "Ostermann",
+      "vorname": "Romy",
+      "klasse": "9b",
+      "stufe": 9,
+      "kurse": [
+        "eth",
+        "fr"
+      ]
+    },
+    {
+      "id": "s-0119",
+      "nachname": "Schöller",
+      "vorname": "Kian",
+      "klasse": "9b",
+      "stufe": 9,
+      "kurse": [
+        "rel",
+        "la"
+      ]
+    },
+    {
+      "id": "s-0120",
+      "nachname": "Marquardt",
+      "vorname": "Malin",
+      "klasse": "9b",
+      "stufe": 9,
+      "kurse": [
+        "eth",
+        "fr"
+      ]
+    },
+    {
+      "id": "s-0121",
+      "nachname": "Zangerle",
+      "vorname": "Nele",
+      "klasse": "9b",
+      "stufe": 9,
+      "kurse": [
+        "rel",
+        "fr"
+      ]
+    },
+    {
+      "id": "s-0122",
+      "nachname": "Jungbluth",
+      "vorname": "Tamme",
+      "klasse": "9b",
+      "stufe": 9,
+      "kurse": [
+        "eth",
+        "la"
+      ]
+    },
+    {
+      "id": "s-0123",
+      "nachname": "Halbach",
+      "vorname": "Hendrik",
+      "klasse": "9b",
+      "stufe": 9,
+      "kurse": [
+        "rel",
+        "fr"
+      ]
+    },
+    {
+      "id": "s-0124",
+      "nachname": "Goldbach",
+      "vorname": "Mats",
+      "klasse": "9b",
+      "stufe": 9,
+      "kurse": [
+        "eth",
+        "fr"
+      ]
+    },
+    {
+      "id": "s-0125",
+      "nachname": "Rothenberger",
+      "vorname": "Hedda",
+      "klasse": "9b",
+      "stufe": 9,
+      "kurse": [
+        "rel",
+        "la"
+      ]
+    },
+    {
+      "id": "s-0126",
+      "nachname": "Goldbach",
+      "vorname": "Clara",
+      "klasse": "9c",
+      "stufe": 9,
+      "kurse": [
+        "rel",
+        "la"
+      ]
+    },
+    {
+      "id": "s-0127",
+      "nachname": "Cranach",
+      "vorname": "Jasper",
+      "klasse": "9c",
+      "stufe": 9,
+      "kurse": [
+        "eth",
+        "fr"
+      ]
+    },
+    {
+      "id": "s-0128",
+      "nachname": "Kienbaum",
+      "vorname": "Lüder",
+      "klasse": "9c",
+      "stufe": 9,
+      "kurse": [
+        "rel",
+        "fr"
+      ]
+    },
+    {
+      "id": "s-0129",
+      "nachname": "Vietinghoff",
+      "vorname": "Frieda",
+      "klasse": "9c",
+      "stufe": 9,
+      "kurse": [
+        "eth",
+        "la"
+      ]
+    },
+    {
+      "id": "s-0130",
+      "nachname": "Vahlbruch",
+      "vorname": "Henry",
+      "klasse": "9c",
+      "stufe": 9,
+      "kurse": [
+        "rel",
+        "fr"
+      ]
+    },
+    {
+      "id": "s-0131",
+      "nachname": "Kästner",
+      "vorname": "Änne",
+      "klasse": "9c",
+      "stufe": 9,
+      "kurse": [
+        "eth",
+        "fr"
+      ]
+    },
+    {
+      "id": "s-0132",
+      "nachname": "Isenbeck",
+      "vorname": "Frieda",
+      "klasse": "9c",
+      "stufe": 9,
+      "kurse": [
+        "rel",
+        "la"
+      ]
+    },
+    {
+      "id": "s-0133",
+      "nachname": "Goldbach",
+      "vorname": "Theo",
+      "klasse": "9c",
+      "stufe": 9,
+      "kurse": [
+        "eth",
+        "fr"
+      ]
+    },
+    {
+      "id": "s-0134",
+      "nachname": "Hasselbach",
+      "vorname": "Vincent",
+      "klasse": "9c",
+      "stufe": 9,
+      "kurse": [
+        "rel",
+        "fr"
+      ]
+    },
+    {
+      "id": "s-0135",
+      "nachname": "Pfeiffer",
+      "vorname": "Ilvy",
+      "klasse": "9c",
+      "stufe": 9,
+      "kurse": [
+        "eth",
+        "la"
+      ]
+    },
+    {
+      "id": "s-0136",
+      "nachname": "Müller",
+      "vorname": "Tamme",
+      "klasse": "9c",
+      "stufe": 9,
+      "kurse": [
+        "rel",
+        "fr"
+      ]
+    },
+    {
+      "id": "s-0137",
+      "nachname": "Kästner",
+      "vorname": "Linus",
+      "klasse": "9c",
+      "stufe": 9,
+      "kurse": [
+        "eth",
+        "fr"
+      ]
+    },
+    {
+      "id": "s-0138",
+      "nachname": "Büchner",
+      "vorname": "Bosse",
+      "klasse": "9c",
+      "stufe": 9,
+      "kurse": [
+        "rel",
+        "la"
+      ]
+    },
+    {
+      "id": "s-0139",
+      "nachname": "Wemhöner",
+      "vorname": "Selma",
+      "klasse": "9c",
+      "stufe": 9,
+      "kurse": [
+        "eth",
+        "fr"
+      ]
+    },
+    {
+      "id": "s-0140",
+      "nachname": "Ahrenkiel",
+      "vorname": "Hedda",
+      "klasse": "9c",
+      "stufe": 9,
+      "kurse": [
+        "rel",
+        "fr"
+      ]
+    },
+    {
+      "id": "s-0141",
+      "nachname": "Schuricht",
+      "vorname": "Oskar",
+      "klasse": "9c",
+      "stufe": 9,
+      "kurse": [
+        "eth",
+        "la"
+      ]
+    },
+    {
+      "id": "s-0142",
+      "nachname": "Rieckhoff",
+      "vorname": "Frieda",
+      "klasse": "9c",
+      "stufe": 9,
+      "kurse": [
+        "rel",
+        "fr"
+      ]
+    },
+    {
+      "id": "s-0143",
+      "nachname": "Zangerle",
+      "vorname": "Kian",
+      "klasse": "9c",
+      "stufe": 9,
+      "kurse": [
+        "eth",
+        "fr"
+      ]
+    },
+    {
+      "id": "s-0144",
+      "nachname": "Frohberg",
+      "vorname": "Juna",
+      "klasse": "9c",
+      "stufe": 9,
+      "kurse": [
+        "rel",
+        "la"
+      ]
+    },
+    {
+      "id": "s-0145",
+      "nachname": "Rebenstock",
+      "vorname": "Hendrik",
+      "klasse": "9c",
+      "stufe": 9,
+      "kurse": [
+        "eth",
+        "fr"
+      ]
+    },
+    {
+      "id": "s-0146",
+      "nachname": "Goldbach",
+      "vorname": "Nele",
+      "klasse": "9c",
+      "stufe": 9,
+      "kurse": [
+        "rel",
+        "fr"
+      ]
+    },
+    {
+      "id": "s-0147",
+      "nachname": "Trautwein",
+      "vorname": "Karl",
+      "klasse": "9c",
+      "stufe": 9,
+      "kurse": [
+        "eth",
+        "la"
+      ]
+    },
+    {
+      "id": "s-0148",
+      "nachname": "Weinhold",
+      "vorname": "Lena",
+      "klasse": "9c",
+      "stufe": 9,
+      "kurse": [
+        "rel",
+        "fr"
+      ]
+    },
+    {
+      "id": "s-0149",
+      "nachname": "Ihlenfeld",
+      "vorname": "Thies",
+      "klasse": "9c",
+      "stufe": 9,
+      "kurse": [
+        "eth",
+        "fr"
+      ]
+    },
+    {
+      "id": "s-0150",
+      "nachname": "Fahrenkamp",
+      "vorname": "Runa",
+      "klasse": "9c",
+      "stufe": 9,
+      "kurse": [
+        "rel",
+        "la"
+      ]
+    }
+  ],
+  "titel": [
+    {
+      "id": "t-501",
+      "titel": "Lambacher Schweizer 5",
+      "fach": "Mathematik",
+      "bestandGesamt": 96
+    },
+    {
+      "id": "t-502",
+      "titel": "Deutschbuch 5",
+      "fach": "Deutsch",
+      "bestandGesamt": 88
+    },
+    {
+      "id": "t-503",
+      "titel": "Green Line 1",
+      "fach": "Englisch",
+      "bestandGesamt": 71
+    },
+    {
+      "id": "t-504",
+      "titel": "Prisma Naturwissenschaften 5",
+      "fach": "Naturwissenschaften",
+      "bestandGesamt": 104
+    },
+    {
+      "id": "t-505",
+      "titel": "Terra Erdkunde 5",
+      "fach": "Erdkunde",
+      "bestandGesamt": 82
+    },
+    {
+      "id": "t-506",
+      "titel": "Musik um uns 5",
+      "fach": "Musik",
+      "bestandGesamt": 118
+    },
+    {
+      "id": "t-510",
+      "titel": "Wege des Glaubens 5",
+      "fach": "Religion",
+      "bestandGesamt": 62
+    },
+    {
+      "id": "t-511",
+      "titel": "Fair Play Ethik 5",
+      "fach": "Ethik",
+      "bestandGesamt": 60
+    },
+    {
+      "id": "t-901",
+      "titel": "Lambacher Schweizer 9",
+      "fach": "Mathematik",
+      "bestandGesamt": 92
+    },
+    {
+      "id": "t-902",
+      "titel": "Deutschbuch 9",
+      "fach": "Deutsch",
+      "bestandGesamt": 86
+    },
+    {
+      "id": "t-903",
+      "titel": "Green Line 5",
+      "fach": "Englisch",
+      "bestandGesamt": 74
+    },
+    {
+      "id": "t-904",
+      "titel": "Impulse Physik 9",
+      "fach": "Physik",
+      "bestandGesamt": 110
+    },
+    {
+      "id": "t-905",
+      "titel": "Chemie heute 9",
+      "fach": "Chemie",
+      "bestandGesamt": 98
+    },
+    {
+      "id": "t-906",
+      "titel": "Natura Biologie 9",
+      "fach": "Biologie",
+      "bestandGesamt": 105
+    },
+    {
+      "id": "t-907",
+      "titel": "Geschichte und Geschehen 9",
+      "fach": "Geschichte",
+      "bestandGesamt": 140
+    },
+    {
+      "id": "t-910",
+      "titel": "Découvertes 4",
+      "fach": "Französisch",
+      "bestandGesamt": 64
+    },
+    {
+      "id": "t-911",
+      "titel": "Cursus 4",
+      "fach": "Latein",
+      "bestandGesamt": 60
+    },
+    {
+      "id": "t-912",
+      "titel": "Wege des Glaubens 9",
+      "fach": "Religion",
+      "bestandGesamt": 66
+    },
+    {
+      "id": "t-913",
+      "titel": "Fair Play Ethik 9",
+      "fach": "Ethik",
+      "bestandGesamt": 60
+    }
+  ],
+  "pakete": [
+    {
+      "id": "p-5-basis",
+      "stufe": 5,
+      "kurs": null,
+      "titelIds": [
+        "t-501",
+        "t-502",
+        "t-503",
+        "t-504",
+        "t-505",
+        "t-506"
+      ]
+    },
+    {
+      "id": "p-5-rel",
+      "stufe": 5,
+      "kurs": "rel",
+      "titelIds": [
+        "t-510"
+      ]
+    },
+    {
+      "id": "p-5-eth",
+      "stufe": 5,
+      "kurs": "eth",
+      "titelIds": [
+        "t-511"
+      ]
+    },
+    {
+      "id": "p-9-basis",
+      "stufe": 9,
+      "kurs": null,
+      "titelIds": [
+        "t-901",
+        "t-902",
+        "t-903",
+        "t-904",
+        "t-905",
+        "t-906",
+        "t-907"
+      ]
+    },
+    {
+      "id": "p-9-fr",
+      "stufe": 9,
+      "kurs": "fr",
+      "titelIds": [
+        "t-910",
+        "t-903"
+      ]
+    },
+    {
+      "id": "p-9-la",
+      "stufe": 9,
+      "kurs": "la",
+      "titelIds": [
+        "t-911"
+      ]
+    },
+    {
+      "id": "p-9-rel",
+      "stufe": 9,
+      "kurs": "rel",
+      "titelIds": [
+        "t-912"
+      ]
+    },
+    {
+      "id": "p-9-eth",
+      "stufe": 9,
+      "kurs": "eth",
+      "titelIds": [
+        "t-913"
+      ]
+    }
+  ]
+}
