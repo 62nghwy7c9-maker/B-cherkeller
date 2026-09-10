@@ -85,7 +85,7 @@ async function sicherungsDialogAbraeumen(page) {
       ]);
       await dl.path();
       if (await schicht.isVisible()) await page.locator('#dialog-knoepfe button').last().click();
-      await page.click('.nav-knopf[data-ziel="suche"]');
+      await page.click('.tab[data-ziel="suche"]');
       return true;
     }
   }
@@ -131,14 +131,14 @@ async function ereignisAnzahl(page) {
 }
 
 async function bestandTabelle(page) {
-  await page.click('.nav-knopf[data-ziel="bestand"]');
+  await page.click('.tab[data-ziel="bestand"]');
   await page.waitForSelector('#v-bestand:not([hidden])');
   return page.evaluate(() => [...document.querySelectorAll('#bestand-koerper tr')]
     .map((tr) => [...tr.children].map((td) => td.textContent).join('|')).join('\n'));
 }
 
 async function exportieren(page) {
-  await page.click('.nav-knopf[data-ziel="sicherung"]');
+  await page.click('.tab[data-ziel="sicherung"]');
   await page.waitForSelector('#v-sicherung:not([hidden])');
   const [dl] = await Promise.all([
     page.waitForEvent('download'),
@@ -150,7 +150,7 @@ async function exportieren(page) {
 }
 
 async function importieren(page, dateien) {
-  await page.click('.nav-knopf[data-ziel="sicherung"]');
+  await page.click('.tab[data-ziel="sicherung"]');
   await page.waitForSelector('#v-sicherung:not([hidden])');
   await page.setInputFiles('#datei-eingabe', dateien);
   await page.waitForSelector('#import-meldung:not([hidden])');
@@ -185,21 +185,21 @@ async function test1() {
   schritte.push('Schüler erfasst');
   await bestandTabelle(page);
   schritte.push('Bestand');
-  await page.click('.nav-knopf[data-ziel="sicherung"]');
+  await page.click('.tab[data-ziel="sicherung"]');
   await page.waitForSelector('#v-sicherung:not([hidden])');
   schritte.push('Sicherung');
   const [dl] = await Promise.all([page.waitForEvent('download'), page.click('#knopf-export')]);
   await dl.path();
   schritte.push('Export offline');
-  await page.click('.nav-knopf[data-ziel="einstellungen"]');
+  await page.click('.tab[data-ziel="einstellungen"]');
   await page.waitForSelector('#v-einstellungen:not([hidden])');
   schritte.push('Einstellungen');
 
   const anzahl = await ereignisAnzahl(page);
-  await page.click('.nav-knopf[data-ziel="suche"]');
+  await page.click('.tab[data-ziel="suche"]');
   await page.fill('#suchfeld', EINDEUTIG[0]);
   await page.waitForSelector('.treffer');
-  const fertig = await page.locator('.treffer .punkt.fertig').count();
+  const fertig = await page.locator('.treffer .status.fertig').count();
   await ctx.close();
 
   const ok = offlineFehler.length === 0 && fehlgeschlagen.length === 0 && anzahl > 0 && fertig >= 1;
@@ -233,10 +233,10 @@ async function test2() {
 
   let fertige = 0;
   for (const n of erfasst) {
-    await page2.click('.nav-knopf[data-ziel="suche"]');
+    await page2.click('.tab[data-ziel="suche"]');
     await page2.fill('#suchfeld', n);
     await page2.waitForSelector('.treffer');
-    const punkte = await page2.locator('.treffer .punkt.fertig').count();
+    const punkte = await page2.locator('.treffer .status.fertig').count();
     if (punkte >= 1) fertige += 1;
   }
   await ctx2.close();
@@ -366,7 +366,7 @@ async function test5() {
     return alle.filter((e) => e.titelId === erste).sort((a, b) => a.ts.localeCompare(b.ts)).map((e) => e.typ);
   });
   const endzustand = await page.evaluate(
-    () => document.querySelector('.titelzeile .titel-zustand').textContent);
+    () => document.querySelector('.titelzeile .titel-zustand-huelle').textContent);
   await ctx.close();
 
   const ok = daten.length === 3

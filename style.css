@@ -1,361 +1,638 @@
-/* Bücherkeller — Gestaltung nach Abschnitt 6 des Bauplans.
-   Papier, Schrift, ein Akzent, eine Warnfarbe. Haarlinien statt Rahmen.
-   Keine Karten, keine Schatten, keine abgerundeten Ecken. */
+/* ==========================================================================
+   Bücherkeller — Gestaltung
 
-@font-face {
-  font-family: "Plex Sans";
-  src: url("fonts/ibm-plex-sans-latin-400-normal.woff2") format("woff2");
-  font-weight: 400; font-style: normal; font-display: block;
-}
-@font-face {
-  font-family: "Plex Sans";
-  src: url("fonts/ibm-plex-sans-latin-600-normal.woff2") format("woff2");
-  font-weight: 600; font-style: normal; font-display: block;
-}
-@font-face {
-  font-family: "Plex Mono";
-  src: url("fonts/ibm-plex-mono-latin-400-normal.woff2") format("woff2");
-  font-weight: 400; font-style: normal; font-display: block;
-}
-@font-face {
-  font-family: "Plex Mono";
-  src: url("fonts/ibm-plex-mono-latin-600-normal.woff2") format("woff2");
-  font-weight: 600; font-style: normal; font-display: block;
-}
+   Register: Produkt-Oberfläche. Die Gestaltung dient der Aufgabe, sie ist
+   nicht die Aufgabe. Wer hier arbeitet, steht im Keller, hat eine Schlange
+   vor sich und soll das Werkzeug nicht bemerken.
+
+   Herkunft der Marke: gymnasiumkerpen.eu. Von dort übernommen sind die
+   Schrift (Noto Sans), die schwarze Navigationsleiste mit weisser Schrift,
+   das Orange #FC8F00 aus dem Schullogo und der Verlaufsstrich von Orange
+   nach Gelb #F9EA11. Alles andere ist Werkzeug-Gestaltung: Tabellen,
+   Zustandspillen, Zeilen, Zustände.
+
+   Farbdisziplin — jede Farbe hat genau eine Aufgabe:
+     Schwarz / Grau  Struktur und Text
+     Orange          Marke, aktive Auswahl, Achtung (nie Fehler)
+     Grün            erledigt
+     Rot             Fehler, Fehlt, Beschädigt
+
+   Aufbau:
+     1  Schriften
+     2  Marken
+     3  Grundlagen
+     4  Kopfleiste und Reiter
+     5  Seitengerüst
+     6  Bausteine
+     7  Start
+     8  Suche
+     9  Schüler
+    10  Bestand
+    11  Sicherung und Einstellungen
+    12  Dialog
+    13  Bewegung
+    14  Schmale Bildschirme
+   ========================================================================== */
+
+/* ---------- 1  Schriften ------------------------------------------------ */
+
+@font-face { font-family: "Noto Sans"; src: url("fonts/noto-sans-400.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: block; }
+@font-face { font-family: "Noto Sans"; src: url("fonts/noto-sans-600.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: block; }
+@font-face { font-family: "Noto Sans"; src: url("fonts/noto-sans-700.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: block; }
+
+/* ---------- 2  Marken --------------------------------------------------- */
 
 :root {
-  --papier: #EFEFEA;
-  --schrift: #16150F;
-  --akzent: #4F5F3E;
-  --warnung: #8A3324;
-  --linie: rgba(22, 21, 15, 0.22);
-  --linie-zart: rgba(22, 21, 15, 0.12);
-  --gedaempft: rgba(22, 21, 15, 0.58);
-  --sans: "Plex Sans", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
-  --mono: "Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-  --rand: max(20px, env(safe-area-inset-left));
+  --grund: #F4F4F5;
+  --flaeche: #FFFFFF;
+  --flaeche-2: #F4F4F5;
+  --flaeche-3: #EAEAEE;
+
+  --tinte: #111111;
+  --tinte-2: #5C5C66;
+  --tinte-3: #7B7B87;
+
+  --linie: #E2E2E6;
+  --linie-stark: #C8C8CF;
+
+  /* Kopfleiste: die schwarze Navigation der Schulseite. */
+  --kopf: #111111;
+  --kopf-tinte: #FFFFFF;
+  --kopf-tinte-2: #B9B9C2;
+
+  /* Schullogo. Weisse Schrift auf diesem Orange ist nicht lesbar (2,3:1) —
+     auf Orange steht deshalb überall Schwarz, so wie im Logo selbst. */
+  --orange: #FC8F00;
+  --orange-hell: #F9EA11;
+  --orange-tief: #E07F00;
+  --orange-text: #8A4B00;
+  --orange-rand: #C07C1A;
+  --orange-zart: #FFF3E0;
+
+  --gruen: #107F49;
+  --gruen-text: #0E6A3C;
+  --gruen-zart: #E7F4EC;
+
+  --rot: #BE2D42;
+  --rot-text: #A31F32;
+  --rot-zart: #FDECEE;
+  --rot-rand: #EFC0C7;
+
+  --r-xs: 3px;
+  --r-sm: 5px;
+  --r-md: 8px;
+  --r-lg: 12px;
+  --r-voll: 999px;
+
+  --schatten-ruhig: 0 1px 2px rgba(17, 17, 17, 0.05);
+  --schatten-schwebend: 0 12px 32px rgba(17, 17, 17, 0.16), 0 2px 8px rgba(17, 17, 17, 0.08);
+  --schatten-leiste: 0 -4px 16px rgba(17, 17, 17, 0.07);
+
+  --e-haftend: 10;
+  --e-leiste: 20;
+  --e-schicht: 30;
+  --e-dialog: 31;
+
+  --kurve: cubic-bezier(0.22, 1, 0.36, 1);
+  --dauer: 150ms;
+  --fokus: #111111;
+
+  --rand-links: max(20px, env(safe-area-inset-left));
   --rand-rechts: max(20px, env(safe-area-inset-right));
 }
 
-* { box-sizing: border-box; }
+/* ---------- 3  Grundlagen ----------------------------------------------- */
 
-html, body {
-  margin: 0; padding: 0;
-  background: var(--papier);
-  color: var(--schrift);
-}
+*, *::before, *::after { box-sizing: border-box; }
+
+/* Das hidden-Attribut muss jede eigene display-Regel schlagen. */
+[hidden] { display: none !important; }
+
+html { background: var(--grund); }
+
 body {
-  font-family: var(--sans);
+  margin: 0;
+  background: var(--grund);
+  color: var(--tinte);
+  font-family: "Noto Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   font-size: 17px;
-  line-height: 1.65;
+  line-height: 1.55;
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: transparent;
   overscroll-behavior-y: contain;
   padding-top: env(safe-area-inset-top);
 }
 
-/* Das hidden-Attribut muss jede eigene display-Regel schlagen, sonst
-   bleiben versteckte Bereiche sichtbar. */
-[hidden] { display: none !important; }
-
-button, input, select { font: inherit; color: inherit; }
+button, input, select { font: inherit; color: inherit; font-variant-numeric: inherit; }
 button { background: none; border: 0; padding: 0; cursor: pointer; }
+h1, h2, h3, p { margin: 0; }
+
+svg { display: block; width: 20px; height: 20px; flex: none; }
+.sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
 
 .nur-vorleser {
   position: absolute; width: 1px; height: 1px; overflow: hidden;
-  clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+  clip-path: inset(50%); white-space: nowrap;
 }
 
-/* ---------- Kopfzeile ---------- */
+/* Ein einziger, überall gleicher Fokusring — in der schwarzen Kopfleiste
+   invertiert, sonst wäre er unsichtbar. */
+:focus-visible { outline: 2px solid var(--fokus); outline-offset: 2px; border-radius: var(--r-xs); }
+.topbar { --fokus: #FFFFFF; }
 
-.kopf {
-  display: flex; align-items: baseline; justify-content: space-between;
+/* ---------- 4  Kopfleiste und Reiter ------------------------------------ */
+
+.topbar {
+  position: sticky; top: 0; z-index: var(--e-haftend);
+  display: flex; align-items: center; justify-content: space-between;
   gap: 16px; flex-wrap: wrap;
-  padding: 14px var(--rand-rechts) 12px var(--rand);
-  border-bottom: 1px solid var(--linie);
+  min-height: 56px;
+  padding: 8px var(--rand-rechts) 8px var(--rand-links);
+  background: var(--kopf);
+  color: var(--kopf-tinte);
 }
+/* Der Verlaufsstrich der Schulseite. Einmal, ganz oben, sonst nirgends. */
+.topbar::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 3px;
+  background: linear-gradient(to right, var(--orange), var(--orange-hell));
+}
+.topbar-links { display: flex; align-items: center; gap: 14px; min-width: 0; flex-wrap: wrap; }
 .marke {
-  font-family: var(--mono); font-weight: 600;
-  text-transform: uppercase; letter-spacing: 0.16em;
-  font-size: 15px;
+  display: inline-flex; align-items: center; gap: 9px;
+  font-size: 17px; font-weight: 700; letter-spacing: -0.01em; white-space: nowrap;
 }
-.kopf-station {
-  font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.14em;
-  font-size: 13px; color: var(--gedaempft); margin-left: 14px;
-}
-.kopf-zaehler { display: flex; gap: 22px; }
-.zaehler {
-  font-family: var(--mono); font-size: 12px;
-  text-transform: uppercase; letter-spacing: 0.12em;
-  color: var(--gedaempft);
-  display: inline-flex; align-items: baseline; gap: 7px;
-}
-.zaehler b { font-size: 17px; font-weight: 600; color: var(--schrift); }
-.zaehler.mahnung b, .zaehler.mahnung { color: var(--warnung); }
+.marke-zeichen { color: var(--orange); }
 
-/* ---------- Navigation ---------- */
+.topbar-rechts { display: flex; gap: 8px; }
+.stat {
+  display: inline-flex; align-items: baseline; gap: 6px;
+  padding: 5px 11px;
+  background: rgba(255, 255, 255, 0.1); border-radius: var(--r-sm);
+  font-size: 13px; color: var(--kopf-tinte-2); white-space: nowrap;
+}
+.stat b { font-size: 15px; font-weight: 700; color: var(--kopf-tinte); }
+.stat.mahnung { background: var(--orange); color: #111; }
+.stat.mahnung b { color: #111; }
 
-.nav {
-  display: flex; gap: 0;
+.tabs {
+  position: sticky; top: 56px; z-index: var(--e-haftend);
+  display: flex; gap: 2px;
+  padding: 0 var(--rand-rechts) 0 var(--rand-links);
+  background: var(--flaeche);
   border-bottom: 1px solid var(--linie);
-  padding: 0 var(--rand-rechts) 0 var(--rand);
-  overflow-x: auto;
+  overflow-x: auto; scrollbar-width: none;
 }
-.nav-knopf {
-  font-family: var(--mono); font-size: 13px; font-weight: 400;
-  text-transform: uppercase; letter-spacing: 0.14em;
-  padding: 15px 0; margin-right: 30px;
-  color: var(--gedaempft);
-  border-bottom: 2px solid transparent;
-  min-height: 48px; white-space: nowrap;
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  display: inline-flex; align-items: center; gap: 8px;
+  min-height: 48px; padding: 0 12px;
+  font-size: 15px; font-weight: 400; color: var(--tinte-2);
+  border-bottom: 3px solid transparent;
+  white-space: nowrap;
+  transition: color var(--dauer) var(--kurve), border-color var(--dauer) var(--kurve);
 }
-.nav-knopf[aria-current="page"] {
-  color: var(--schrift); font-weight: 600;
-  border-bottom-color: var(--akzent);
+.tab svg { color: var(--tinte-3); transition: color var(--dauer) var(--kurve); }
+.tab:hover { color: var(--tinte); }
+.tab:hover svg { color: var(--tinte-2); }
+/* Der aktive Reiter trägt seinen Zustand im Text, nicht in der Farbe —
+   der Orange-Strich verstärkt nur. Orange allein wäre auf Weiss zu schwach. */
+.tab[aria-current="page"] { color: var(--tinte); font-weight: 700; border-bottom-color: var(--orange); }
+.tab[aria-current="page"] svg { color: var(--tinte); }
+
+/* ---------- 5  Seitengerüst --------------------------------------------- */
+
+main { padding: 0 var(--rand-rechts) 0 var(--rand-links); }
+.sicht { padding: 24px 0 56px; max-width: 1120px; margin: 0 auto; }
+.sicht.schmal { max-width: 720px; }
+#v-schueler { padding-bottom: 120px; }
+
+.seitenkopf { margin-bottom: 20px; }
+.seitenkopf h1 { font-size: 25px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.25; }
+.unterzeile { margin-top: 4px; color: var(--tinte-2); font-size: 15px; max-width: 68ch; text-wrap: pretty; }
+.fliess { color: var(--tinte-2); font-size: 15px; max-width: 68ch; text-wrap: pretty; }
+.fliess b { color: var(--tinte); font-weight: 600; }
+.mikrotext { margin-top: 10px; color: var(--tinte-2); font-size: 13.5px; max-width: 68ch; }
+
+/* ---------- 6  Bausteine ------------------------------------------------ */
+
+.tafel {
+  background: var(--flaeche);
+  border: 1px solid var(--linie);
+  border-radius: var(--r-md);
+  box-shadow: var(--schatten-ruhig);
+  overflow: hidden;
 }
+.tafel + .tafel { margin-top: 16px; }
+.tafel.gepolstert { padding: 22px; }
+.tafel-titel { font-size: 17px; font-weight: 700; margin-bottom: 6px; letter-spacing: -0.01em; }
+.tafel.gepolstert .fliess { margin-bottom: 18px; }
+.tafel.gefahr { border-color: var(--rot-rand); }
 
-/* ---------- Flächen ---------- */
-
-main { padding: 0 var(--rand-rechts) 0 var(--rand); }
-.sicht { padding: 26px 0 60px; max-width: 900px; }
-#v-schueler { padding-bottom: 140px; max-width: 900px; }
-#v-bestand { max-width: none; }
-
-.titel-gross {
-  font-family: var(--mono); font-weight: 600; font-size: 22px;
-  text-transform: uppercase; letter-spacing: 0.18em;
-  margin: 0 0 26px;
+.tafel-kopf {
+  padding: 10px 18px;
+  background: var(--flaeche-2);
+  border-bottom: 1px solid var(--linie);
+  font-size: 12.5px; font-weight: 600; color: var(--tinte-2);
 }
-.feld-titel {
-  font-family: var(--mono); font-weight: 600; font-size: 12px;
-  text-transform: uppercase; letter-spacing: 0.18em;
-  color: var(--gedaempft);
-  margin: 0 0 12px;
+.liste { list-style: none; margin: 0; padding: 0; }
+
+/* Knöpfe: eine Form, drei Rollen. Auf Orange steht immer Schwarz. */
+.knopf {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 44px; padding: 0 18px;
+  border-radius: var(--r-md);
+  font-size: 15px; font-weight: 600; letter-spacing: -0.005em;
+  border: 1px solid transparent;
+  transition: background-color var(--dauer) var(--kurve),
+              border-color var(--dauer) var(--kurve),
+              color var(--dauer) var(--kurve);
 }
-.fliess { margin: 0 0 18px; max-width: 62ch; }
-.fussnote { font-size: 15px; color: var(--gedaempft); margin: 12px 0 0; max-width: 62ch; }
-.wert-gross { font-family: var(--mono); font-size: 20px; margin: 0 0 14px; }
-.haarlinie { border: 0; border-top: 1px solid var(--linie-zart); margin: 34px 0; }
-.block { margin-bottom: 6px; }
+.knopf.gross { min-height: 52px; padding: 0 26px; font-size: 16px; font-weight: 700; }
+.knopf.klein { min-height: 38px; padding: 0 14px; font-size: 14px; }
 
-/* ---------- Start ---------- */
+.knopf.haupt { background: var(--orange); color: #111111; }
+.knopf.haupt:hover:not([disabled]) { background: var(--orange-tief); }
+.knopf.haupt:active:not([disabled]) { background: #C97000; }
+.knopf.haupt[disabled] { background: var(--flaeche-2); color: var(--tinte-3); border-color: var(--linie); cursor: default; }
 
-.wahl-gross { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--linie); border: 1px solid var(--linie); margin: 0 0 34px; }
-.wahl-gross.zwei { grid-template-columns: repeat(2, 1fr); }
-.flaeche {
-  background: var(--papier);
-  min-height: 130px; padding: 20px;
-  display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 4px;
+.knopf.zweit { background: var(--flaeche); color: var(--tinte); border-color: var(--linie-stark); }
+.knopf.zweit:hover { background: var(--flaeche-2); border-color: var(--tinte-3); }
+.knopf.zweit:active { background: var(--flaeche-3); }
+
+.knopf.gefahr { background: var(--flaeche); color: var(--rot-text); border-color: var(--rot-rand); }
+.knopf.gefahr:hover { background: var(--rot-zart); border-color: var(--rot); }
+
+.zurueck {
+  display: inline-flex; align-items: center; gap: 6px;
+  min-height: 40px; margin-bottom: 12px; padding-right: 8px;
+  font-size: 14.5px; font-weight: 600; color: var(--tinte-2);
+  transition: color var(--dauer) var(--kurve);
+}
+.zurueck:hover { color: var(--tinte); }
+.zurueck svg { width: 18px; height: 18px; }
+
+.chipgruppe { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 3px 10px; border-radius: var(--r-sm);
+  background: var(--flaeche-3); color: var(--tinte-2);
+  font-size: 13px; font-weight: 600; white-space: nowrap;
+}
+.topbar .chip { background: rgba(255, 255, 255, 0.1); color: var(--kopf-tinte-2); }
+
+/* Zustandspille: Farbe UND Wort. Farbe allein ist im Kellerlicht und bei
+   Rot-Grün-Schwäche keine Information. */
+.status {
+  /* justify-self: als Rasterzelle wuerde die Pille sonst auf Spaltenbreite
+     gezogen und saehe aus wie ein leerer Balken. */
+  display: inline-flex; align-items: center; gap: 6px;
+  justify-self: start; align-self: center; width: fit-content;
+  padding: 4px 11px; border-radius: var(--r-voll);
+  font-size: 13px; font-weight: 600; white-space: nowrap;
+}
+.status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; flex: none; }
+.status.offen { background: var(--flaeche-3); color: var(--tinte-2); }
+.status.teilweise { background: var(--orange-zart); color: var(--orange-text); }
+.status.fertig { background: var(--gruen-zart); color: var(--gruen-text); }
+.status.problem { background: var(--rot-zart); color: var(--rot-text); }
+.status.knapp { background: var(--rot-zart); color: var(--rot-text); }
+
+.banner {
+  display: flex; align-items: flex-start; gap: 11px;
+  padding: 13px 16px; margin-bottom: 16px;
+  border-radius: var(--r-md);
+  background: var(--flaeche-2); color: var(--tinte-2);
+  border: 1px solid var(--linie-stark);
+  font-size: 14.5px; line-height: 1.5;
+}
+.banner svg { margin-top: 1px; }
+.banner.warnung { background: var(--orange-zart); color: var(--orange-text); border-color: var(--orange-rand); }
+.banner.fehler { background: var(--rot-zart); color: var(--rot-text); border-color: var(--rot-rand); }
+.tafel.gepolstert .banner { margin: 18px 0 0; }
+
+.leerzustand { padding: 56px 24px 64px; text-align: center; }
+.leerzustand svg { width: 28px; height: 28px; margin: 0 auto 12px; color: var(--tinte-3); }
+.leer-titel { font-size: 16px; font-weight: 700; }
+.leer-text { margin-top: 4px; color: var(--tinte-2); font-size: 14.5px; max-width: 46ch; margin-inline: auto; text-wrap: pretty; }
+
+/* ---------- 7  Start ---------------------------------------------------- */
+
+.feld { border: 0; padding: 0; margin: 0 0 26px; }
+.feld-legende { padding: 0; font-size: 15px; font-weight: 700; }
+.feld-hilfe { margin: 2px 0 12px; color: var(--tinte-2); font-size: 14.5px; }
+
+.kachelreihe { display: grid; gap: 10px; }
+.kachelreihe.drei { grid-template-columns: repeat(3, 1fr); }
+.kachelreihe.zwei { grid-template-columns: repeat(2, 1fr); }
+
+.kachel {
+  display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 2px;
+  min-height: 104px; padding: 18px;
+  background: var(--flaeche);
+  border: 1px solid var(--linie-stark);
+  border-radius: var(--r-md);
   text-align: left;
+  transition: border-color var(--dauer) var(--kurve), background-color var(--dauer) var(--kurve),
+              box-shadow var(--dauer) var(--kurve);
 }
-.flaeche[aria-pressed="true"] { background: var(--akzent); color: var(--papier); }
-.flaeche-zahl { font-family: var(--mono); font-size: 46px; font-weight: 600; line-height: 1; }
-.flaeche-wort { font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.18em; }
-.flaeche-wort.gross { font-size: 20px; letter-spacing: 0.14em; }
-.flaeche-hinweis { font-size: 15px; opacity: 0.75; }
-
-/* ---------- Knöpfe ---------- */
-
-.knopf-haupt, .knopf-zweit, .knopf-warnung {
-  font-family: var(--mono); font-size: 15px; font-weight: 600;
-  text-transform: uppercase; letter-spacing: 0.16em;
-  min-height: 62px; padding: 0 30px;
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 100%; max-width: 460px;
+.kachel:hover { border-color: var(--tinte-3); }
+.kachel[aria-pressed="true"] {
+  border-color: var(--orange-rand); background: var(--orange-zart);
+  box-shadow: inset 0 0 0 2px var(--orange);
 }
-.knopf-haupt { background: var(--akzent); color: var(--papier); border: 1px solid var(--akzent); }
-.knopf-haupt[disabled] { background: transparent; color: var(--gedaempft); border-color: var(--linie); }
-.knopf-zweit { background: transparent; color: var(--schrift); border: 1px solid var(--linie); }
-.knopf-warnung { background: transparent; color: var(--warnung); border: 1px solid var(--warnung); }
-.knopf-zurueck {
-  font-family: var(--mono); font-size: 13px; text-transform: uppercase; letter-spacing: 0.14em;
-  color: var(--gedaempft); min-height: 48px; padding-right: 20px;
+.kachel-zahl { font-size: 30px; font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; }
+.kachel-wort { font-size: 13px; font-weight: 600; color: var(--tinte-2); }
+.kachel[aria-pressed="true"] .kachel-wort,
+.kachel[aria-pressed="true"] .kachel-hilfe { color: var(--orange-text); }
+.kachel.breit { min-height: 92px; }
+.kachel-titel { font-size: 18px; font-weight: 700; letter-spacing: -0.01em; }
+.kachel-hilfe { font-size: 14px; color: var(--tinte-2); }
+
+.aktionszeile { margin-top: 4px; }
+.aktionszeile .knopf { min-width: 240px; }
+
+/* ---------- 8  Suche ---------------------------------------------------- */
+
+.werkzeugleiste { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 14px; }
+
+.suchfeld {
+  display: flex; align-items: center; gap: 10px;
+  flex: 1 1 320px; max-width: 520px;
+  padding: 0 16px;
+  background: var(--flaeche);
+  border: 1px solid var(--linie-stark);
+  border-radius: var(--r-md);
+  transition: border-color var(--dauer) var(--kurve), box-shadow var(--dauer) var(--kurve);
 }
-.knopf-zurueck::before { content: "\2190\00a0\00a0"; }
-
-/* ---------- Suche ---------- */
-
-.suchfeld-huelle { display: block; }
+.suchfeld:focus-within { border-color: var(--orange-rand); box-shadow: 0 0 0 3px var(--orange-zart); }
+.suchfeld-zeichen { color: var(--tinte-3); }
+.suchfeld:focus-within .suchfeld-zeichen { color: var(--orange-text); }
 #suchfeld {
-  width: 100%; font-family: var(--sans); font-size: 30px; line-height: 1.3;
-  padding: 8px 0 18px; background: transparent;
-  border: 0; border-bottom: 2px solid var(--schrift);
-  border-radius: 0; -webkit-appearance: none; appearance: none;
+  flex: 1 1 auto; min-width: 0;
+  height: 50px; padding: 0;
+  font-size: 17px; background: transparent;
+  border: 0; border-radius: 0; -webkit-appearance: none; appearance: none;
 }
-#suchfeld::placeholder { color: rgba(22, 21, 15, 0.3); }
+#suchfeld:focus { outline: none; }
+#suchfeld::placeholder { color: var(--tinte-2); }
 #suchfeld::-webkit-search-cancel-button { -webkit-appearance: none; }
-#suchfeld:focus { outline: none; border-bottom-color: var(--akzent); }
 
-.such-meta {
-  font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.14em;
-  color: var(--gedaempft); margin: 14px 0 0;
+.such-meta { font-size: 14px; color: var(--tinte-2); font-weight: 600; }
+
+/* Ein Raster, das Kopfzeile und Zeilen teilen — dadurch stehen die Spalten
+   wirklich untereinander statt nur ungefähr. */
+.zeile-raster {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 84px 148px 28px;
+  align-items: center;
+  gap: 14px;
 }
-.trefferliste { list-style: none; margin: 6px 0 0; padding: 0; }
+.tafel-kopf.zeile-raster { padding-inline: 18px; }
+
 .treffer {
-  display: flex; align-items: center; gap: 18px;
-  width: 100%; min-height: 68px; padding: 12px 4px;
-  border-bottom: 1px solid var(--linie-zart); text-align: left;
+  width: 100%; min-height: 64px; padding: 10px 18px;
+  border-bottom: 1px solid var(--linie);
+  text-align: left;
+  transition: background-color var(--dauer) var(--kurve);
 }
-.treffer-name { font-size: 20px; flex: 1 1 auto; }
-.treffer-name b { font-weight: 600; }
-.treffer-klasse {
-  font-family: var(--mono); font-size: 14px; letter-spacing: 0.1em;
-  color: var(--gedaempft); flex: 0 0 auto; width: 3.5em; text-align: right;
+.liste li:last-child .treffer { border-bottom: 0; }
+.treffer:hover { background: var(--flaeche-2); }
+.treffer:active { background: var(--flaeche-3); }
+.treffer-name { font-size: 17px; min-width: 0; overflow-wrap: anywhere; }
+.treffer-name b { font-weight: 700; }
+.treffer-klasse { font-size: 14px; color: var(--tinte-2); font-weight: 600; }
+.treffer-pfeil { color: var(--tinte-3); }
+.treffer:hover .treffer-pfeil { color: var(--tinte); }
+
+/* ---------- 9  Schüler -------------------------------------------------- */
+
+.schuelerkopf {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: 20px; flex-wrap: wrap; margin-bottom: 16px;
 }
+.schueler-name { font-size: 27px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; }
+.schuelerkopf-text .chipgruppe { margin-top: 7px; }
 
-/* Statuspunkt: trägt Information, ist keine Verzierung. Rund, damit er
-   nicht mit dem eckigen Häkchen-Feld in der Schülerliste verwechselt wird. */
-.punkt { flex: 0 0 auto; width: 15px; height: 15px; border: 1px solid var(--schrift); border-radius: 50%; }
-.punkt.offen { background: transparent; }
-.punkt.teilweise { background: linear-gradient(to right, var(--akzent) 0 50%, transparent 50% 100%); border-color: var(--akzent); }
-.punkt.fertig { background: var(--akzent); border-color: var(--akzent); }
-
-/* ---------- Schüler ---------- */
-
-.schueler-kopf { border-bottom: 1px solid var(--linie); padding-bottom: 20px; margin-bottom: 4px; }
-.schueler-name { font-size: 30px; font-weight: 600; margin: 4px 0 2px; line-height: 1.2; }
-.schueler-meta {
-  font-family: var(--mono); font-size: 13px; text-transform: uppercase; letter-spacing: 0.14em;
-  color: var(--gedaempft); margin: 0 0 16px;
+.batterie { display: flex; align-items: center; gap: 12px; min-width: 220px; }
+.batterie-schiene {
+  flex: 1 1 auto; height: 8px;
+  background: var(--flaeche-3);
+  border-radius: var(--r-voll);
+  overflow: hidden;
 }
-.fortschritt { display: flex; align-items: center; gap: 16px; }
-.fortschritt-text {
-  font-family: var(--mono); font-size: 15px; font-weight: 600;
-  letter-spacing: 0.1em; white-space: nowrap;
+.batterie-fuellung {
+  height: 100%; width: 0; background: var(--gruen);
+  border-radius: var(--r-voll);
+  transition: width 220ms var(--kurve);
 }
-.fortschritt-schiene { flex: 1 1 auto; height: 3px; background: var(--linie-zart); }
-.fortschritt-balken { display: block; height: 3px; width: 0; background: var(--akzent); }
+.batterie-text { font-size: 14px; font-weight: 700; white-space: nowrap; }
 
-.titelliste { list-style: none; margin: 0; padding: 0; }
-.titelzeile { display: flex; align-items: stretch; border-bottom: 1px solid var(--linie-zart); }
+.buch-raster {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) 148px 108px;
+  align-items: center;
+  gap: 14px;
+}
+.tafel-kopf.buch-raster { padding-inline: 18px; }
+
+.titelzeile {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 108px;
+  align-items: stretch;
+  border-bottom: 1px solid var(--linie);
+  transition: background-color var(--dauer) var(--kurve);
+}
+.liste li:last-child .titelzeile { border-bottom: 0; }
 
 .titel-schalter {
-  flex: 1 1 auto; min-height: 64px;
-  display: flex; align-items: center; gap: 18px;
-  padding: 12px 12px 12px 4px; text-align: left;
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) 148px;
+  align-items: center; gap: 14px;
+  min-height: 68px; padding: 10px 0 10px 18px;
+  text-align: left;
+  transition: background-color var(--dauer) var(--kurve);
 }
+.titel-schalter:hover { background: var(--flaeche-2); }
+
+/* Häkchenfeld. Grün heisst erledigt — überall in der App, sonst nirgends. */
 .haken {
-  flex: 0 0 auto; width: 26px; height: 26px;
-  border: 1px solid var(--schrift);
+  width: 24px; height: 24px;
+  border: 1.5px solid var(--linie-stark);
+  border-radius: var(--r-sm);
+  background: var(--flaeche);
   display: flex; align-items: center; justify-content: center;
+  color: transparent;
+  transition: background-color var(--dauer) var(--kurve),
+              border-color var(--dauer) var(--kurve),
+              color var(--dauer) var(--kurve);
 }
-.haken::after { content: ""; display: block; width: 14px; height: 14px; background: transparent; }
-.titel-schalter[aria-pressed="true"] .haken { border-color: var(--akzent); background: var(--akzent); }
-.titel-schalter[aria-pressed="true"] .haken::after { background: var(--papier); }
-.titel-text { flex: 1 1 auto; }
-.titel-name { font-size: 19px; line-height: 1.35; }
-.titel-fach {
-  font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.14em;
-  color: var(--gedaempft);
-}
-.titel-zustand {
-  font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.14em;
-  color: var(--akzent);
-}
-.titelzeile.problem .haken { border-color: var(--warnung); background: transparent; }
-.titelzeile.problem .titel-zustand { color: var(--warnung); }
-.titelzeile.problem .titel-schalter[aria-pressed="true"] .haken { background: var(--warnung); border-color: var(--warnung); }
-.titelzeile.wartet { opacity: 0.45; }
-.titelzeile.schreibfehler { background: rgba(138, 51, 36, 0.12); }
-.titelzeile.schreibfehler .titel-zustand { color: var(--warnung); }
+.haken svg { width: 16px; height: 16px; transform: scale(0.55); transition: transform var(--dauer) var(--kurve); }
+.titel-schalter:hover .haken { border-color: var(--tinte-3); }
+.titel-schalter[aria-pressed="true"] .haken { background: var(--gruen); border-color: var(--gruen); color: #fff; }
+.titel-schalter[aria-pressed="true"] .haken svg { transform: scale(1); }
+
+.titel-text { min-width: 0; }
+.titel-name { font-size: 17px; line-height: 1.35; overflow-wrap: anywhere; }
+.titel-fach { font-size: 13.5px; color: var(--tinte-2); }
+.titel-zustand-huelle { display: flex; }
 
 .knopf-problem {
-  flex: 0 0 auto; min-width: 96px; min-height: 64px;
-  border-left: 1px solid var(--linie-zart);
-  font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.14em;
-  color: var(--gedaempft);
+  display: flex; align-items: center; justify-content: center;
+  min-height: 68px; padding: 0 12px;
+  border-left: 1px solid var(--linie);
+  font-size: 14px; font-weight: 600; color: var(--tinte-2);
+  transition: background-color var(--dauer) var(--kurve), color var(--dauer) var(--kurve);
 }
+.knopf-problem:hover { background: var(--rot-zart); color: var(--rot-text); }
 
-.anker-unten {
-  position: fixed; left: 0; right: 0; bottom: 0;
-  background: var(--papier); border-top: 1px solid var(--linie);
-  padding: 12px var(--rand-rechts) calc(12px + env(safe-area-inset-bottom)) var(--rand);
+.titelzeile.wartet .titel-schalter { opacity: 0.5; }
+.titelzeile.schreibfehler { background: var(--rot-zart); box-shadow: inset 0 0 0 1px var(--rot-rand); }
+.titelzeile.schreibfehler .titel-schalter:hover { background: var(--rot-zart); }
+
+.aktionsleiste {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: var(--e-leiste);
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 12px var(--rand-rechts) calc(12px + env(safe-area-inset-bottom)) var(--rand-links);
+  background: var(--flaeche);
+  border-top: 1px solid var(--linie);
+  box-shadow: var(--schatten-leiste);
 }
-.anker-unten .knopf-haupt { max-width: none; }
+.aktionsleiste-text { font-size: 14.5px; color: var(--tinte-2); font-weight: 600; }
+.aktionsleiste .knopf { min-width: 200px; }
 
-/* ---------- Bestand ---------- */
+/* ---------- 10  Bestand ------------------------------------------------- */
 
-.warnzeile {
-  font-family: var(--mono); font-size: 13px; text-transform: uppercase; letter-spacing: 0.12em;
-  color: var(--warnung); border-top: 1px solid var(--warnung); border-bottom: 1px solid var(--warnung);
-  padding: 12px 0; margin: 0 0 24px; line-height: 1.5;
-}
 .tabelle-huelle { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-.tabelle { border-collapse: collapse; width: 100%; min-width: 760px; }
+.tabelle { border-collapse: collapse; width: 100%; min-width: 880px; }
 .tabelle th {
-  font-family: var(--mono); font-size: 11px; font-weight: 600;
-  text-transform: uppercase; letter-spacing: 0.12em; color: var(--gedaempft);
-  text-align: right; padding: 10px 14px 10px 0; border-bottom: 1px solid var(--linie);
-  white-space: nowrap;
+  position: sticky; top: 0;
+  padding: 11px 16px; text-align: right; white-space: nowrap;
+  background: var(--flaeche-2);
+  border-bottom: 1px solid var(--linie);
+  font-size: 12.5px; font-weight: 600; color: var(--tinte-2);
 }
 .tabelle th.links, .tabelle td.links { text-align: left; }
 .tabelle td {
-  text-align: right; padding: 13px 14px 13px 0;
-  border-bottom: 1px solid var(--linie-zart);
-  font-family: var(--mono); font-size: 16px; white-space: nowrap;
+  padding: 13px 16px; text-align: right; white-space: nowrap;
+  border-bottom: 1px solid var(--linie);
+  font-size: 15px; font-variant-numeric: tabular-nums;
 }
-.tabelle td.links { font-family: var(--sans); white-space: normal; }
-.tabelle td.knapp { color: var(--warnung); font-weight: 600; }
-.tabelle tbody tr:last-child td { border-bottom: 1px solid var(--linie); }
+.tabelle td.links { white-space: normal; }
+.tabelle td.titel { font-weight: 600; }
+.tabelle td.fach { color: var(--tinte-2); }
+.tabelle td.null { color: var(--tinte-3); }
+.tabelle tbody tr:last-child td { border-bottom: 0; }
+.tabelle tbody tr { transition: background-color var(--dauer) var(--kurve); }
+.tabelle tbody tr:hover { background: var(--flaeche-2); }
+.tabelle td .status { font-size: 13px; }
 
-/* ---------- Sicherung ---------- */
+/* ---------- 11  Sicherung und Einstellungen ----------------------------- */
 
-.datei-eingabe { position: absolute; left: -9999px; }
-.meldung {
-  font-family: var(--mono); font-size: 15px; line-height: 1.6;
-  border-left: 2px solid var(--akzent); padding: 10px 0 10px 16px; margin: 20px 0 0;
+.datei-eingabe { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+
+.einstellzeile {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 20px; padding: 18px;
+  border-bottom: 1px solid var(--linie);
 }
-.meldung.fehler { border-left-color: var(--warnung); color: var(--warnung); }
+.einstellzeile:last-child { border-bottom: 0; }
+.einstellzeile-text { min-width: 0; }
+.einstell-label { font-size: 13px; font-weight: 600; color: var(--tinte-2); }
+.einstell-wert { font-size: 17px; font-weight: 600; margin-top: 1px; }
+.einstell-hinweis { font-size: 14.5px; color: var(--tinte-2); margin-top: 3px; max-width: 62ch; text-wrap: pretty; }
+.einstellzeile .mikrotext { margin-top: 4px; }
 
-/* ---------- Dialog ---------- */
+/* ---------- 12  Dialog -------------------------------------------------- */
 
-.dialog-schicht {
-  position: fixed; inset: 0; background: rgba(22, 21, 15, 0.55);
+.schicht {
+  position: fixed; inset: 0; z-index: var(--e-schicht);
   display: flex; align-items: center; justify-content: center;
-  padding: 20px; z-index: 50;
+  padding: 20px;
+  background: rgba(17, 17, 17, 0.5);
 }
 .dialog {
-  background: var(--papier); border: 1px solid var(--schrift);
-  width: 100%; max-width: 560px; max-height: 88vh; overflow-y: auto;
-  padding: 30px 28px 26px;
+  z-index: var(--e-dialog);
+  width: 100%; max-width: 520px; max-height: 86vh; overflow-y: auto;
+  padding: 24px;
+  background: var(--flaeche);
+  border-radius: var(--r-lg);
+  box-shadow: var(--schatten-schwebend);
 }
-.dialog-titel {
-  font-family: var(--mono); font-size: 17px; font-weight: 600;
-  text-transform: uppercase; letter-spacing: 0.16em; margin: 0 0 18px; line-height: 1.4;
-}
-.dialog-inhalt { margin-bottom: 26px; }
-.dialog-inhalt p { margin: 0 0 14px; }
-.dialog-inhalt p:last-child { margin-bottom: 0; }
-.dialog-knoepfe { display: flex; flex-direction: column; gap: 12px; }
-.dialog-knoepfe .knopf-haupt,
-.dialog-knoepfe .knopf-zweit,
-.dialog-knoepfe .knopf-warnung { max-width: none; }
-.dialog.warnung { border-color: var(--warnung); border-width: 2px; }
-.dialog.warnung .dialog-titel { color: var(--warnung); }
+.dialog-kopf { display: flex; align-items: flex-start; gap: 11px; margin-bottom: 12px; }
+.dialog-zeichen { display: flex; margin-top: 2px; color: var(--rot); }
+.dialog-titel { font-size: 19px; font-weight: 700; letter-spacing: -0.015em; line-height: 1.3; text-wrap: balance; }
+.dialog-inhalt { color: var(--tinte-2); font-size: 15px; }
+.dialog-inhalt p + p { margin-top: 10px; }
+.dialog-inhalt .kachelreihe { margin-top: 16px; }
+.dialog-fuss { display: flex; justify-content: flex-end; gap: 10px; flex-wrap: wrap; margin-top: 22px; }
+.dialog-fuss .knopf { flex: 1 1 auto; min-width: 140px; }
+.dialog.warnung .dialog-titel { color: var(--rot-text); }
 
 .dialog-eingabe {
-  width: 100%; font-size: 19px; padding: 14px 12px;
-  background: transparent; border: 1px solid var(--linie); border-radius: 0;
+  width: 100%; margin-top: 14px;
+  height: 50px; padding: 0 14px;
+  font-size: 17px; color: var(--tinte);
+  background: var(--flaeche);
+  border: 1px solid var(--linie-stark); border-radius: var(--r-md);
   -webkit-appearance: none; appearance: none;
 }
-.dialog-eingabe:focus { outline: none; border-color: var(--akzent); }
-.dialog-liste { list-style: none; margin: 0 0 18px; padding: 0; }
-.dialog-liste li { border-bottom: 1px solid var(--linie-zart); padding: 8px 0; font-size: 17px; }
+.dialog-eingabe:focus { outline: none; border-color: var(--orange-rand); box-shadow: 0 0 0 3px var(--orange-zart); }
+.dialog-eingabe::placeholder { color: var(--tinte-2); }
 
-/* ---------- Bewegung ---------- */
+/* ---------- 13  Bewegung ------------------------------------------------ */
 
-.titel-schalter .haken,
-.flaeche { transition: background-color 120ms linear, color 120ms linear, border-color 120ms linear; }
+.schicht { animation: einblenden 140ms var(--kurve); }
+.dialog { animation: aufsteigen 180ms var(--kurve); }
+@keyframes einblenden { from { opacity: 0; } }
+@keyframes aufsteigen { from { opacity: 0; transform: translateY(8px); } }
 
 @media (prefers-reduced-motion: reduce) {
-  * { transition: none !important; animation: none !important; }
+  *, *::before, *::after {
+    transition-duration: 1ms !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }
 
-/* ---------- Hochformat / schmal ---------- */
+/* ---------- 14  Schmale Bildschirme ------------------------------------- */
 
-@media (max-width: 620px) {
-  .wahl-gross.zwei { grid-template-columns: 1fr; }
-  .kopf-zaehler { gap: 16px; }
-  .schueler-name { font-size: 26px; }
-  #suchfeld { font-size: 24px; }
+@media (max-width: 860px) {
+  .zeile-raster { grid-template-columns: minmax(0, 1fr) 64px 128px 24px; gap: 10px; }
+  .buch-raster { grid-template-columns: 28px minmax(0, 1fr) 128px 92px; gap: 10px; }
+  .titelzeile { grid-template-columns: minmax(0, 1fr) 92px; }
+  .titel-schalter { grid-template-columns: 28px minmax(0, 1fr) 128px; gap: 10px; }
+}
+
+@media (max-width: 640px) {
+  .kachelreihe.zwei { grid-template-columns: 1fr; }
+  .topbar { min-height: 52px; }
+  .tabs { top: 52px; }
+  .tab { padding: 0 10px; font-size: 14px; }
+  .sicht { padding-top: 18px; }
+  .seitenkopf h1 { font-size: 21px; }
+  .schueler-name { font-size: 22px; }
+  .batterie { min-width: 100%; }
+
+  /* Klasse und Status wandern unter den Namen; die Spaltenköpfe verlieren
+     dort ihren Sinn und verschwinden mit. */
+  .tafel-kopf.zeile-raster, .tafel-kopf.buch-raster { display: none; }
+  .zeile-raster { grid-template-columns: minmax(0, 1fr) 24px; gap: 10px; row-gap: 6px; }
+  .treffer { padding-block: 12px; }
+  .treffer-name { grid-column: 1; }
+  .treffer-klasse { grid-column: 1; justify-self: start; }
+  .treffer .status { grid-column: 1; justify-self: start; }
+  .treffer-pfeil { grid-column: 2; grid-row: 1 / span 3; align-self: center; }
+
+  .titel-schalter { grid-template-columns: 28px minmax(0, 1fr); row-gap: 6px; }
+  .titel-zustand-huelle { grid-column: 2; }
+  .titelzeile { grid-template-columns: minmax(0, 1fr) 84px; }
+  .knopf-problem { font-size: 13px; }
+
+  .aktionsleiste { flex-direction: column; align-items: stretch; gap: 8px; }
+  .aktionsleiste-text { text-align: center; }
+  .aktionsleiste .knopf { min-width: 0; width: 100%; }
+  .dialog-fuss { flex-direction: column-reverse; }
+  .dialog-fuss .knopf { width: 100%; }
 }

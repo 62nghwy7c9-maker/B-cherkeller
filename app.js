@@ -26,7 +26,7 @@
 
 /* Diese Kennung steht in den Einstellungen und muss mit CACHE_NAME in
    sw.js übereinstimmen. Bei jeder Änderung an den Dateien beide erhöhen. */
-export const FASSUNG = '2026-09-08-1';
+export const FASSUNG = '2026-09-10-2';
 
 const DB_NAME = 'buecherkeller';
 const DB_FASSUNG = 1;
@@ -52,6 +52,18 @@ const ZUSTAND_WORT = {
   fehlt: 'fehlt',
   beschaedigt: 'beschädigt',
 };
+
+/* Baut ein Symbol aus dem Vorrat in index.html. Es wird nichts nachgeladen. */
+function zeichen(name, klasse) {
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('aria-hidden', 'true');
+  svg.setAttribute('focusable', 'false');
+  if (klasse) svg.setAttribute('class', klasse);
+  const use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+  use.setAttribute('href', `#i-${name}`);
+  svg.append(use);
+  return svg;
+}
 
 /* Prüfstand: nur für den Abnahmetest 7 (Schreibfehler). Ist im normalen
    Betrieb wirkungslos, weil niemand ihn einschaltet. */
@@ -290,6 +302,7 @@ function gesamtStatus(schueler) {
 
 const schicht = document.getElementById('dialog-schicht');
 const dialogKasten = document.getElementById('dialog');
+const dialogZeichen = document.getElementById('dialog-zeichen');
 const dialogTitel = document.getElementById('dialog-titel');
 const dialogInhalt = document.getElementById('dialog-inhalt');
 const dialogKnoepfe = document.getElementById('dialog-knoepfe');
@@ -311,13 +324,14 @@ function dialogZeigen({ titel, inhalt, knoepfe, warnung = false }) {
   for (const k of knoepfe) {
     const b = document.createElement('button');
     b.type = 'button';
-    b.className = k.art === 'haupt' ? 'knopf-haupt'
-      : k.art === 'warnung' ? 'knopf-warnung' : 'knopf-zweit';
+    b.className = k.art === 'haupt' ? 'knopf haupt'
+      : k.art === 'warnung' ? 'knopf gefahr' : 'knopf zweit';
     b.textContent = k.text;
     b.addEventListener('click', () => k.fn());
     dialogKnoepfe.append(b);
   }
   dialogKasten.classList.toggle('warnung', warnung);
+  dialogZeichen.hidden = !warnung;
   schicht.hidden = false;
 }
 
@@ -351,7 +365,7 @@ function sichtZeigen(name) {
     el.hidden = schluesselName !== name;
   }
   nav.hidden = (name === 'start');
-  for (const knopf of nav.querySelectorAll('.nav-knopf')) {
+  for (const knopf of nav.querySelectorAll('.tab')) {
     const ziel = knopf.dataset.ziel;
     const aktiv = ziel === name || (name === 'schueler' && ziel === 'suche');
     if (aktiv) knopf.setAttribute('aria-current', 'page');
@@ -365,7 +379,7 @@ function sichtZeigen(name) {
 }
 
 nav.addEventListener('click', (e) => {
-  const knopf = e.target.closest('.nav-knopf');
+  const knopf = e.target.closest('.tab');
   if (!knopf) return;
   sichtZeigen(knopf.dataset.ziel);
 });
@@ -375,16 +389,25 @@ const zSeit = document.getElementById('z-seit');
 const zSeitHuelle = document.getElementById('z-seit-huelle');
 const kopfStation = document.getElementById('kopf-station');
 
+function modusWort() {
+  return einstellungen.modus === 'rueckgabe' ? 'Rücknahme' : 'Ausgabe';
+}
+
+function chip(text) {
+  const el = document.createElement('span');
+  el.className = 'chip';
+  el.textContent = text;
+  return el;
+}
+
 function kopfZeichnen() {
   zGesamt.textContent = String(ereignisse.length);
   const seit = Math.max(0, ereignisse.length - einstellungen.sicherungAnzahl);
   zSeit.textContent = String(seit);
   zSeitHuelle.classList.toggle('mahnung', einstellungen.abgeschlossen >= SICHERUNG_ALLE - 2);
+  kopfStation.replaceChildren();
   if (einstellungen.station) {
-    const modusWort = einstellungen.modus === 'rueckgabe' ? 'Rücknahme' : 'Ausgabe';
-    kopfStation.textContent = `Station ${einstellungen.station} · ${modusWort}`;
-  } else {
-    kopfStation.textContent = '';
+    kopfStation.append(chip(`Station ${einstellungen.station}`), chip(modusWort()));
   }
 }
 
@@ -436,6 +459,10 @@ startWeiter.addEventListener('click', () => {
 const suchfeld = document.getElementById('suchfeld');
 const trefferliste = document.getElementById('trefferliste');
 const suchMeta = document.getElementById('such-meta');
+const suchLeer = document.getElementById('such-leer');
+const suchLeerTitel = suchLeer.querySelector('.leer-titel');
+const suchLeerText = suchLeer.querySelector('.leer-text');
+const tafelKopfSuche = document.querySelector('#v-suche .tafel-kopf');
 
 function sucheOeffnen() {
   suchfeld.focus();
@@ -444,12 +471,23 @@ function sucheOeffnen() {
 
 suchfeld.addEventListener('input', trefferZeichnen);
 
+const GESAMT_WORT = { offen: 'offen', teilweise: 'teilweise', fertig: 'fertig' };
+
+function pille(art, text) {
+  const el = document.createElement('span');
+  el.className = `status ${art}`;
+  el.textContent = text;
+  return el;
+}
+
 function trefferZeichnen() {
   const roh = suchfeld.value.trim();
   trefferliste.replaceChildren();
 
   if (!roh) {
-    suchMeta.textContent = `${stammdaten.schueler.length} Schüler · Namen eingeben`;
+    suchLeer.hidden = false;
+    tafelKopfSuche.hidden = true;
+    suchMeta.textContent = `${stammdaten.schueler.length} Schüler erfasst`;
     return;
   }
 
@@ -457,20 +495,24 @@ function trefferZeichnen() {
   const treffer = stammdaten.schueler.filter(
     (s) => s.such.includes(begriff) || s.suchUmgekehrt.includes(begriff));
 
-  suchMeta.textContent = treffer.length === 1
-    ? '1 Treffer'
-    : `${treffer.length} Treffer`;
+  suchLeer.hidden = treffer.length > 0;
+  tafelKopfSuche.hidden = treffer.length === 0;
+  if (treffer.length === 0) {
+    suchLeerTitel.textContent = 'Kein Treffer';
+    suchLeerText.textContent = `Für „${roh}“ gibt es keinen Namen. Weniger Buchstaben eingeben oder Schreibweise prüfen.`;
+  } else {
+    suchLeerTitel.textContent = 'Namen eingeben';
+    suchLeerText.textContent = 'Zwei oder drei Buchstaben genügen. Umlaute sind egal — „muller“ findet „Müller“.';
+  }
+
+  suchMeta.textContent = treffer.length === 1 ? '1 Treffer' : `${treffer.length} Treffer`;
 
   const bruch = document.createDocumentFragment();
   for (const s of treffer) {
     const li = document.createElement('li');
     const b = document.createElement('button');
     b.type = 'button';
-    b.className = 'treffer';
-
-    const punkt = document.createElement('span');
-    punkt.className = `punkt ${gesamtStatus(s)}`;
-    punkt.setAttribute('aria-hidden', 'true');
+    b.className = 'treffer zeile-raster';
 
     const name = document.createElement('span');
     name.className = 'treffer-name';
@@ -482,7 +524,10 @@ function trefferZeichnen() {
     klasse.className = 'treffer-klasse';
     klasse.textContent = s.klasse;
 
-    b.append(punkt, name, klasse);
+    const art = gesamtStatus(s);
+    const pfeil = zeichen('pfeil-rechts', 'treffer-pfeil');
+
+    b.append(name, klasse, pille(art, GESAMT_WORT[art]), pfeil);
     b.addEventListener('click', () => schuelerOeffnen(s.id));
     li.append(b);
     bruch.append(li);
@@ -501,6 +546,7 @@ const schuelerMeta = document.getElementById('schueler-meta');
 const fortschrittText = document.getElementById('fortschritt-text');
 const fortschrittBalken = document.getElementById('fortschritt-balken');
 const titelliste = document.getElementById('titelliste');
+const aktionMeta = document.getElementById('aktion-meta');
 
 document.getElementById('schueler-zurueck').addEventListener('click', () => {
   offenerSchueler = null;
@@ -517,8 +563,7 @@ function schuelerZeichnen() {
   const s = offenerSchueler;
   if (!s) return;
   schuelerName.textContent = `${s.nachname}, ${s.vorname}`;
-  const modusWort = einstellungen.modus === 'rueckgabe' ? 'Rücknahme' : 'Ausgabe';
-  schuelerMeta.textContent = `Klasse ${s.klasse} · ${modusWort}`;
+  schuelerMeta.replaceChildren(chip(`Klasse ${s.klasse}`), chip(modusWort()));
 
   titelliste.replaceChildren();
   for (const t of paketListe.get(s.id)) {
@@ -531,12 +576,17 @@ function fortschrittZeichnen() {
   const { erledigt, gesamt } = fortschritt(offenerSchueler);
   fortschrittText.textContent = `${erledigt} von ${gesamt}`;
   fortschrittBalken.style.width = gesamt ? `${(erledigt / gesamt) * 100}%` : '0';
+  const offen = gesamt - erledigt;
+  aktionMeta.textContent = offen === 0
+    ? 'Alle Bücher erfasst.'
+    : `Noch ${offen} ${offen === 1 ? 'Buch' : 'Bücher'} offen.`;
 }
 
 function titelzeileBauen(schueler, titel) {
   const li = document.createElement('li');
-  li.className = 'titelzeile';
-  li.dataset.titelId = titel.id;
+  const zeile = document.createElement('div');
+  zeile.className = 'titelzeile';
+  zeile.dataset.titelId = titel.id;
 
   const schalter = document.createElement('button');
   schalter.type = 'button';
@@ -545,6 +595,7 @@ function titelzeileBauen(schueler, titel) {
   const haken = document.createElement('span');
   haken.className = 'haken';
   haken.setAttribute('aria-hidden', 'true');
+  haken.append(zeichen('haken'));
 
   const text = document.createElement('span');
   text.className = 'titel-text';
@@ -553,21 +604,23 @@ function titelzeileBauen(schueler, titel) {
   name.textContent = titel.titel;
   const unten = document.createElement('span');
   unten.className = 'titel-fach';
-  const zustandEl = document.createElement('span');
-  zustandEl.className = 'titel-zustand';
-  text.append(name, document.createElement('br'), unten, zustandEl);
+  text.append(name, document.createElement('br'), unten);
 
-  schalter.append(haken, text);
-  schalter.addEventListener('click', () => umschalten(schueler, titel, li));
+  const zustandHuelle = document.createElement('span');
+  zustandHuelle.className = 'titel-zustand-huelle';
+
+  schalter.append(haken, text, zustandHuelle);
+  schalter.addEventListener('click', () => umschalten(schueler, titel, zeile));
 
   const problem = document.createElement('button');
   problem.type = 'button';
   problem.className = 'knopf-problem';
   problem.textContent = 'Problem';
-  problem.addEventListener('click', () => problemDialog(schueler, titel, li));
+  problem.addEventListener('click', () => problemDialog(schueler, titel, zeile));
 
-  li.append(schalter, problem);
-  zeileAktualisieren(li, schueler, titel);
+  zeile.append(schalter, problem);
+  li.append(zeile);
+  zeileAktualisieren(zeile, schueler, titel);
   return li;
 }
 
@@ -577,14 +630,16 @@ function zeileAktualisieren(li, schueler, titel) {
   const schalter = li.querySelector('.titel-schalter');
   schalter.setAttribute('aria-pressed', String(erledigt));
   li.classList.toggle('problem', z === 'fehlt' || z === 'beschaedigt');
-  li.querySelector('.titel-fach').textContent = titel.fach;
+
   const anmerkung = notiz(schueler.id, titel.id);
-  const zustandEl = li.querySelector('.titel-zustand');
-  if (z === 'offen') {
-    zustandEl.textContent = '';
-  } else {
-    zustandEl.textContent = ` · ${ZUSTAND_WORT[z]}${anmerkung ? ` · ${anmerkung}` : ''}`;
-  }
+  li.querySelector('.titel-fach').textContent =
+    anmerkung ? `${titel.fach} · ${anmerkung}` : titel.fach;
+
+  const art = z === 'offen' ? 'offen'
+    : (z === 'fehlt' || z === 'beschaedigt') ? 'problem'
+    : erledigt ? 'fertig' : 'teilweise';
+  li.querySelector('.titel-zustand-huelle')
+    .replaceChildren(pille(art, ZUSTAND_WORT[z]));
 }
 
 /* Tippen schaltet um: offen -> erledigt -> offen. Jeder Wechsel schreibt
@@ -709,7 +764,7 @@ function schuelerAbschliessen() {
  * ------------------------------------------------------------------ */
 
 const bestandKoerper = document.getElementById('bestand-koerper');
-const bestandWarnung = document.getElementById('bestand-warnung');
+const bestandWarnung = document.getElementById('bestand-warnung-text');
 
 function bestandZaehlen() {
   const zahlen = new Map();
@@ -752,22 +807,33 @@ function bestandZeichnen() {
     const z = zahlen.get(t.id);
     const verfuegbar = t.bestandGesamt - z.ausgegeben - z.fehlt;
     const tr = document.createElement('tr');
+
     const zellen = [
-      ['links', t.titel],
-      ['links', t.fach],
+      ['links titel', t.titel],
+      ['links fach', t.fach],
       ['', t.bestandGesamt],
       ['', z.ausgegeben],
       ['', z.zurueck],
       ['', z.fehlt],
       ['', z.beschaedigt],
-      [verfuegbar <= 0 ? 'knapp' : '', verfuegbar],
     ];
     for (const [klasse, wert] of zellen) {
       const td = document.createElement('td');
-      if (klasse) td.className = klasse;
+      td.className = (klasse + (wert === 0 ? ' null' : '')).trim();
       td.textContent = String(wert);
       tr.append(td);
     }
+
+    /* Ist ein Titel aufgebraucht, ist das keine Zahl unter vielen, sondern
+       eine Nachricht an den Helfer — deshalb als Pille statt als Ziffer. */
+    const tdV = document.createElement('td');
+    if (verfuegbar <= 0) {
+      tdV.append(pille('knapp', String(verfuegbar)));
+      tdV.style.textAlign = 'right';
+    } else {
+      tdV.textContent = String(verfuegbar);
+    }
+    tr.append(tdV);
     bruch.append(tr);
   }
   bestandKoerper.append(bruch);
@@ -780,7 +846,14 @@ function bestandZeichnen() {
 const sicherungAnzahlEl = document.getElementById('sicherung-anzahl');
 const sicherungLetzteEl = document.getElementById('sicherung-letzte');
 const importMeldung = document.getElementById('import-meldung');
+const importMeldungText = document.getElementById('import-meldung-text');
 const dateiEingabe = document.getElementById('datei-eingabe');
+
+function meldung(text, istFehler) {
+  importMeldung.hidden = false;
+  importMeldung.classList.toggle('fehler', istFehler);
+  importMeldungText.textContent = text;
+}
 
 function sicherungZeichnen() {
   sicherungAnzahlEl.textContent = String(ereignisse.length);
@@ -836,9 +909,7 @@ function sicherungErstellen() {
 
 document.getElementById('knopf-export').addEventListener('click', () => {
   const name = sicherungErstellen();
-  importMeldung.hidden = false;
-  importMeldung.classList.remove('fehler');
-  importMeldung.textContent = `Sicherung erstellt: ${name}`;
+  meldung(`Sicherung erstellt: ${name}`, false);
 });
 
 document.getElementById('knopf-import').addEventListener('click', () => dateiEingabe.click());
@@ -849,14 +920,10 @@ dateiEingabe.addEventListener('change', async () => {
   if (!dateien.length) return;
   try {
     const ergebnis = await sicherungenEinlesen(dateien);
-    importMeldung.hidden = false;
-    importMeldung.classList.remove('fehler');
-    importMeldung.textContent =
-      `${ergebnis.gelesen} Ereignisse gelesen, ${ergebnis.neu} neu, ${ergebnis.bekannt} bereits vorhanden.`;
+    meldung(`${ergebnis.gelesen} Ereignisse gelesen, ${ergebnis.neu} neu, `
+      + `${ergebnis.bekannt} bereits vorhanden.`, false);
   } catch (fehler) {
-    importMeldung.hidden = false;
-    importMeldung.classList.add('fehler');
-    importMeldung.textContent = `Nicht eingelesen: ${fehler.message}`;
+    meldung(`Nicht eingelesen: ${fehler.message}`, true);
   }
 });
 
@@ -949,14 +1016,14 @@ document.getElementById('knopf-station-wechseln').addEventListener('click', () =
   const p = document.createElement('p');
   p.textContent = 'Die Stationsnummer steht in jedem neuen Ereignis. Sie zu ändern ist nur nötig, wenn dieses iPad an einem anderen Tisch steht.';
   const reihe = document.createElement('div');
-  reihe.className = 'wahl-gross';
+  reihe.className = 'kachelreihe drei';
   for (const n of ['1', '2', '3']) {
     const b = document.createElement('button');
     b.type = 'button';
-    b.className = 'flaeche';
+    b.className = 'kachel';
     b.setAttribute('aria-pressed', String(einstellungen.station === n));
     const zahl = document.createElement('span');
-    zahl.className = 'flaeche-zahl';
+    zahl.className = 'kachel-zahl';
     zahl.textContent = n;
     b.append(zahl);
     b.addEventListener('click', () => {

@@ -50,7 +50,7 @@ style.css
 sw.js
 manifest.json
 daten/stammdaten.json
-fonts/     (vier Schriftdateien)
+fonts/     (drei Schriftdateien)
 icons/     (drei Bilddateien)
 ```
 

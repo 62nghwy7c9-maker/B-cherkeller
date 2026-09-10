@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <title>Bücherkeller</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
-<meta name="theme-color" content="#EFEFEA">
+<meta name="theme-color" content="#111111">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Bücherkeller">
@@ -15,169 +15,264 @@
 </head>
 <body>
 
-<header class="kopf">
-  <div class="kopf-marke">
-    <span class="marke">Bücherkeller</span>
-    <span class="kopf-station" id="kopf-station"></span>
+<!-- Symbolvorrat. Liegt in der Datei selbst, damit nichts nachgeladen wird. -->
+<svg class="sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="i-suche" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+    <circle cx="8.75" cy="8.75" r="5.25"/><path d="M12.7 12.7 16.5 16.5"/>
+  </symbol>
+  <symbol id="i-bestand" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="2.75" y="3.75" width="14.5" height="12.5" rx="1.75"/><path d="M2.75 8h14.5M8 8v8.25"/>
+  </symbol>
+  <symbol id="i-sicherung" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M10 3v8.5m0 0L6.75 8.4M10 11.5l3.25-3.1"/><path d="M3.5 13v2.25A1.25 1.25 0 0 0 4.75 16.5h10.5a1.25 1.25 0 0 0 1.25-1.25V13"/>
+  </symbol>
+  <symbol id="i-einstellungen" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+    <path d="M3 6h4.5M11 6h6M3 14h2.5M9 14h8"/><circle cx="9.25" cy="6" r="1.85"/><circle cx="7.25" cy="14" r="1.85"/>
+  </symbol>
+  <symbol id="i-haken" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="m5 10.4 3.4 3.3L15 6.6"/>
+  </symbol>
+  <symbol id="i-pfeil-rechts" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="m8 5 5 5-5 5"/>
+  </symbol>
+  <symbol id="i-pfeil-links" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="m11.5 5-5 5 5 5"/>
+  </symbol>
+  <symbol id="i-warnung" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M10 3.4 2.9 15.6h14.2L10 3.4Z"/><path d="M10 8v3.1"/><circle cx="10" cy="13.4" r=".95" fill="currentColor" stroke="none"/>
+  </symbol>
+  <symbol id="i-info" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="10" cy="10" r="7"/><path d="M10 9.3v4"/><circle cx="10" cy="6.6" r=".95" fill="currentColor" stroke="none"/>
+  </symbol>
+  <!-- Regal mit drei Buchruecken. Dasselbe Motiv wie das App-Symbol auf
+       dem Home-Bildschirm, damit beides als dieselbe App erkennbar ist. -->
+  <symbol id="i-buch" viewBox="0 0 20 20" fill="currentColor">
+    <rect x="2.6" y="5.4" width="3.4" height="10.3" rx="0.6"/>
+    <rect x="7.5" y="3.4" width="3.4" height="12.3" rx="0.6"/>
+    <rect x="12.4" y="6.8" width="3.4" height="8.9" rx="0.6"/>
+    <rect x="1.6" y="16.4" width="16.8" height="1.5" rx="0.75"/>
+  </symbol>
+</svg>
+
+<header class="topbar">
+  <div class="topbar-links">
+    <span class="marke"><svg class="marke-zeichen" aria-hidden="true"><use href="#i-buch"/></svg>Bücherkeller</span>
+    <span class="chipgruppe" id="kopf-station"></span>
   </div>
-  <div class="kopf-zaehler">
-    <span class="zaehler"><b id="z-gesamt">0</b><span>Ereignisse</span></span>
-    <span class="zaehler" id="z-seit-huelle"><b id="z-seit">0</b><span>seit Sicherung</span></span>
+  <div class="topbar-rechts" id="kopf-zaehler">
+    <span class="stat"><b id="z-gesamt">0</b><span class="stat-wort">Ereignisse</span></span>
+    <span class="stat" id="z-seit-huelle"><b id="z-seit">0</b><span class="stat-wort">seit Sicherung</span></span>
   </div>
 </header>
 
-<nav class="nav" id="nav" hidden>
-  <button type="button" class="nav-knopf" data-ziel="suche">Suche</button>
-  <button type="button" class="nav-knopf" data-ziel="bestand">Bestand</button>
-  <button type="button" class="nav-knopf" data-ziel="sicherung">Sicherung</button>
-  <button type="button" class="nav-knopf" data-ziel="einstellungen">Einstellungen</button>
+<nav class="tabs" id="nav" hidden aria-label="Bereiche">
+  <button type="button" class="tab" data-ziel="suche"><svg aria-hidden="true"><use href="#i-suche"/></svg>Suche</button>
+  <button type="button" class="tab" data-ziel="bestand"><svg aria-hidden="true"><use href="#i-bestand"/></svg>Bestand</button>
+  <button type="button" class="tab" data-ziel="sicherung"><svg aria-hidden="true"><use href="#i-sicherung"/></svg>Sicherung</button>
+  <button type="button" class="tab" data-ziel="einstellungen"><svg aria-hidden="true"><use href="#i-einstellungen"/></svg>Einstellungen</button>
 </nav>
 
 <main id="haupt">
 
-  <!-- 5.1 Start -->
-  <section class="sicht" id="v-start" hidden>
-    <h1 class="titel-gross">Gerät einrichten</h1>
-
-    <h2 class="feld-titel">Station</h2>
-    <div class="wahl-gross" id="start-stationen">
-      <button type="button" class="flaeche" data-station="1"><span class="flaeche-zahl">1</span><span class="flaeche-wort">Station</span></button>
-      <button type="button" class="flaeche" data-station="2"><span class="flaeche-zahl">2</span><span class="flaeche-wort">Station</span></button>
-      <button type="button" class="flaeche" data-station="3"><span class="flaeche-zahl">3</span><span class="flaeche-wort">Station</span></button>
+  <!-- Start -->
+  <section class="sicht schmal" id="v-start" hidden>
+    <div class="seitenkopf">
+      <h1>Gerät einrichten</h1>
+      <p class="unterzeile">Einmal pro iPad. Beim nächsten Öffnen wird dieser Schritt übersprungen.</p>
     </div>
 
-    <h2 class="feld-titel">Modus</h2>
-    <div class="wahl-gross zwei" id="start-modi">
-      <button type="button" class="flaeche" data-modus="ausgabe"><span class="flaeche-wort gross">Ausgabe</span><span class="flaeche-hinweis">Bücher werden herausgegeben</span></button>
-      <button type="button" class="flaeche" data-modus="rueckgabe"><span class="flaeche-wort gross">Rücknahme</span><span class="flaeche-hinweis">Bücher kommen zurück</span></button>
-    </div>
+    <fieldset class="feld">
+      <legend class="feld-legende">Station</legend>
+      <p class="feld-hilfe">An welchem Tisch steht dieses iPad? Jedes Gerät bekommt eine eigene Nummer.</p>
+      <div class="kachelreihe drei" id="start-stationen">
+        <button type="button" class="kachel" data-station="1" aria-pressed="false"><span class="kachel-zahl">1</span><span class="kachel-wort">Station</span></button>
+        <button type="button" class="kachel" data-station="2" aria-pressed="false"><span class="kachel-zahl">2</span><span class="kachel-wort">Station</span></button>
+        <button type="button" class="kachel" data-station="3" aria-pressed="false"><span class="kachel-zahl">3</span><span class="kachel-wort">Station</span></button>
+      </div>
+    </fieldset>
 
-    <button type="button" class="knopf-haupt" id="start-weiter" disabled>Weiter zur Suche</button>
-    <p class="fussnote" id="start-fussnote">Beides auswählen. Diese Auswahl wird gespeichert und beim nächsten Öffnen übersprungen.</p>
+    <fieldset class="feld">
+      <legend class="feld-legende">Modus</legend>
+      <p class="feld-hilfe">Bestimmt, was ein Häkchen bedeutet. Später in den Einstellungen änderbar.</p>
+      <div class="kachelreihe zwei" id="start-modi">
+        <button type="button" class="kachel breit" data-modus="ausgabe" aria-pressed="false"><span class="kachel-titel">Ausgabe</span><span class="kachel-hilfe">Bücher werden herausgegeben</span></button>
+        <button type="button" class="kachel breit" data-modus="rueckgabe" aria-pressed="false"><span class="kachel-titel">Rücknahme</span><span class="kachel-hilfe">Bücher kommen zurück</span></button>
+      </div>
+    </fieldset>
+
+    <div class="aktionszeile">
+      <button type="button" class="knopf haupt gross" id="start-weiter" disabled>Weiter zur Suche</button>
+      <p class="mikrotext" id="start-fussnote">Station und Modus auswählen.</p>
+    </div>
   </section>
 
-  <!-- 5.2 Suche -->
+  <!-- Suche -->
   <section class="sicht" id="v-suche" hidden>
-    <label class="suchfeld-huelle">
-      <span class="nur-vorleser">Schüler suchen</span>
-      <input id="suchfeld" type="search" inputmode="search" autocomplete="off" autocorrect="off"
-             autocapitalize="off" spellcheck="false" placeholder="Name eingeben">
-    </label>
-    <p class="such-meta" id="such-meta"></p>
-    <ol class="trefferliste" id="trefferliste"></ol>
-  </section>
+    <div class="werkzeugleiste">
+      <label class="suchfeld">
+        <svg class="suchfeld-zeichen" aria-hidden="true"><use href="#i-suche"/></svg>
+        <span class="nur-vorleser">Schüler suchen</span>
+        <input id="suchfeld" type="search" inputmode="search" autocomplete="off" autocorrect="off"
+               autocapitalize="off" spellcheck="false" placeholder="Nachname eingeben">
+      </label>
+      <p class="such-meta" id="such-meta"></p>
+    </div>
 
-  <!-- 5.3 Schüler -->
-  <section class="sicht" id="v-schueler" hidden>
-    <div class="schueler-kopf">
-      <button type="button" class="knopf-zurueck" id="schueler-zurueck">Zurück</button>
-      <h1 class="schueler-name" id="schueler-name"></h1>
-      <p class="schueler-meta" id="schueler-meta"></p>
-      <div class="fortschritt">
-        <span class="fortschritt-text" id="fortschritt-text"></span>
-        <span class="fortschritt-schiene"><span class="fortschritt-balken" id="fortschritt-balken"></span></span>
+    <div class="tafel">
+      <div class="tafel-kopf zeile-raster">
+        <span>Name</span><span>Klasse</span><span>Status</span><span></span>
+      </div>
+      <ol class="liste" id="trefferliste"></ol>
+      <div class="leerzustand" id="such-leer" hidden>
+        <svg aria-hidden="true"><use href="#i-suche"/></svg>
+        <p class="leer-titel">Namen eingeben</p>
+        <p class="leer-text">Zwei oder drei Buchstaben genügen. Umlaute sind egal — „muller“ findet „Müller“.</p>
       </div>
     </div>
-    <ul class="titelliste" id="titelliste"></ul>
-    <div class="anker-unten">
-      <button type="button" class="knopf-haupt" id="knopf-fertig">Fertig</button>
+  </section>
+
+  <!-- Schüler -->
+  <section class="sicht" id="v-schueler" hidden>
+    <button type="button" class="zurueck" id="schueler-zurueck">
+      <svg aria-hidden="true"><use href="#i-pfeil-links"/></svg>Alle Schüler
+    </button>
+
+    <div class="schuelerkopf">
+      <div class="schuelerkopf-text">
+        <h1 class="schueler-name" id="schueler-name"></h1>
+        <div class="chipgruppe" id="schueler-meta"></div>
+      </div>
+      <div class="batterie">
+        <div class="batterie-schiene"><div class="batterie-fuellung" id="fortschritt-balken"></div></div>
+        <span class="batterie-text" id="fortschritt-text"></span>
+      </div>
+    </div>
+
+    <div class="tafel">
+      <div class="tafel-kopf buch-raster">
+        <span></span><span>Buch</span><span>Status</span><span></span>
+      </div>
+      <ul class="liste" id="titelliste"></ul>
+    </div>
+
+    <div class="aktionsleiste">
+      <p class="aktionsleiste-text" id="aktion-meta"></p>
+      <button type="button" class="knopf haupt gross" id="knopf-fertig">Fertig</button>
     </div>
   </section>
 
-  <!-- 5.4 Bestand -->
+  <!-- Bestand -->
   <section class="sicht" id="v-bestand" hidden>
-    <h1 class="titel-gross">Bestand</h1>
-    <p class="warnzeile" id="bestand-warnung"></p>
-    <div class="tabelle-huelle">
-      <table class="tabelle" id="bestand-tabelle">
-        <thead>
-          <tr>
-            <th class="links">Titel</th>
-            <th class="links">Fach</th>
-            <th>Gesamt</th>
-            <th>ausgegeben</th>
-            <th>zurück</th>
-            <th>fehlt</th>
-            <th>beschädigt</th>
-            <th>verfügbar</th>
-          </tr>
-        </thead>
-        <tbody id="bestand-koerper"></tbody>
-      </table>
+    <div class="seitenkopf">
+      <h1>Bestand</h1>
+      <p class="unterzeile">Wie viele Exemplare jedes Titels unterwegs sind.</p>
+    </div>
+
+    <div class="banner warnung" id="bestand-warnung">
+      <svg aria-hidden="true"><use href="#i-warnung"/></svg>
+      <p id="bestand-warnung-text"></p>
+    </div>
+
+    <div class="tafel">
+      <div class="tabelle-huelle">
+        <table class="tabelle" id="bestand-tabelle">
+          <thead>
+            <tr>
+              <th class="links">Titel</th>
+              <th class="links">Fach</th>
+              <th>Gesamt</th>
+              <th>ausgegeben</th>
+              <th>zurück</th>
+              <th>fehlt</th>
+              <th>beschädigt</th>
+              <th>verfügbar</th>
+            </tr>
+          </thead>
+          <tbody id="bestand-koerper"></tbody>
+        </table>
+      </div>
     </div>
   </section>
 
-  <!-- 5.5 Sicherung -->
-  <section class="sicht" id="v-sicherung" hidden>
-    <h1 class="titel-gross">Sicherung</h1>
+  <!-- Sicherung -->
+  <section class="sicht schmal" id="v-sicherung" hidden>
+    <div class="seitenkopf">
+      <h1>Sicherung</h1>
+      <p class="unterzeile">Derselbe Bildschirm sichert das Gerät und führt abends die drei Stationen zusammen.</p>
+    </div>
 
-    <section class="block">
-      <h2 class="feld-titel">Sicherung erstellen</h2>
-      <p class="fliess">Legt eine Datei mit <b id="sicherung-anzahl">0</b> Ereignissen ab. Die Datei enthält immer alles bisher Erfasste. Die neueste Datei genügt zur vollständigen Wiederherstellung.</p>
-      <button type="button" class="knopf-haupt" id="knopf-export">Sicherung erstellen</button>
-      <p class="fussnote" id="sicherung-letzte"></p>
+    <section class="tafel gepolstert">
+      <h2 class="tafel-titel">Sicherung erstellen</h2>
+      <p class="fliess">Legt eine Datei mit <b id="sicherung-anzahl">0</b> Ereignissen ab. Sie enthält immer alles bisher Erfasste — die neueste Datei genügt zur vollständigen Wiederherstellung.</p>
+      <button type="button" class="knopf haupt" id="knopf-export">
+        <svg aria-hidden="true"><use href="#i-sicherung"/></svg>Sicherung erstellen
+      </button>
+      <p class="mikrotext" id="sicherung-letzte"></p>
     </section>
 
-    <hr class="haarlinie">
-
-    <section class="block">
-      <h2 class="feld-titel">Sicherung einlesen</h2>
-      <p class="fliess">Mehrere Dateien gleichzeitig möglich. Doppelte Ereignisse werden übersprungen. Damit werden abends auch die drei Stationen zusammengeführt.</p>
+    <section class="tafel gepolstert">
+      <h2 class="tafel-titel">Sicherung einlesen</h2>
+      <p class="fliess">Mehrere Dateien gleichzeitig möglich. Doppelte Ereignisse werden erkannt und übersprungen. Die Reihenfolge spielt keine Rolle.</p>
       <input type="file" id="datei-eingabe" accept="application/json,.json" multiple class="datei-eingabe">
-      <button type="button" class="knopf-zweit" id="knopf-import">Dateien auswählen</button>
-      <p class="meldung" id="import-meldung" hidden></p>
+      <button type="button" class="knopf zweit" id="knopf-import">Dateien auswählen</button>
+      <div class="banner" id="import-meldung" hidden><svg aria-hidden="true"><use href="#i-info"/></svg><p id="import-meldung-text"></p></div>
     </section>
   </section>
 
   <!-- Einstellungen -->
-  <section class="sicht" id="v-einstellungen" hidden>
-    <h1 class="titel-gross">Einstellungen</h1>
+  <section class="sicht schmal" id="v-einstellungen" hidden>
+    <div class="seitenkopf">
+      <h1>Einstellungen</h1>
+      <p class="unterzeile">Gilt nur für dieses iPad.</p>
+    </div>
 
-    <section class="block">
-      <h2 class="feld-titel">Station</h2>
-      <p class="wert-gross" id="ein-station"></p>
-      <button type="button" class="knopf-zweit" id="knopf-station-wechseln">Station ändern</button>
-    </section>
+    <div class="tafel">
+      <div class="einstellzeile">
+        <div class="einstellzeile-text">
+          <p class="einstell-label">Station</p>
+          <p class="einstell-wert" id="ein-station"></p>
+        </div>
+        <button type="button" class="knopf zweit klein" id="knopf-station-wechseln">Ändern</button>
+      </div>
+      <div class="einstellzeile">
+        <div class="einstellzeile-text">
+          <p class="einstell-label">Modus</p>
+          <p class="einstell-wert" id="ein-modus"></p>
+        </div>
+        <button type="button" class="knopf zweit klein" id="knopf-modus-wechseln">Wechseln</button>
+      </div>
+      <div class="einstellzeile">
+        <div class="einstellzeile-text">
+          <p class="einstell-label">Fassung</p>
+          <p class="einstell-wert" id="ein-version"></p>
+          <p class="mikrotext">Diese Kennung muss auf allen drei iPads gleich sein.</p>
+        </div>
+      </div>
+      <div class="einstellzeile">
+        <div class="einstellzeile-text">
+          <p class="einstell-label">Speicher</p>
+          <p class="einstell-hinweis" id="ein-speicher"></p>
+        </div>
+      </div>
+    </div>
 
-    <hr class="haarlinie">
-
-    <section class="block">
-      <h2 class="feld-titel">Modus</h2>
-      <p class="wert-gross" id="ein-modus"></p>
-      <button type="button" class="knopf-zweit" id="knopf-modus-wechseln">Modus wechseln</button>
-    </section>
-
-    <hr class="haarlinie">
-
-    <section class="block">
-      <h2 class="feld-titel">Speicher</h2>
-      <p class="fliess" id="ein-speicher"></p>
-    </section>
-
-    <hr class="haarlinie">
-
-    <section class="block">
-      <h2 class="feld-titel">Fassung</h2>
-      <p class="wert-gross" id="ein-version"></p>
-      <p class="fussnote">Diese Kennung muss auf allen drei iPads gleich sein.</p>
-    </section>
-
-    <hr class="haarlinie">
-
-    <section class="block">
-      <h2 class="feld-titel">Demo zurücksetzen</h2>
-      <p class="fliess">Löscht alle erfassten Ereignisse dieses Geräts. Nur für die Vorführung.</p>
-      <button type="button" class="knopf-warnung" id="knopf-reset">Demo zurücksetzen</button>
+    <section class="tafel gepolstert gefahr">
+      <h2 class="tafel-titel">Demo zurücksetzen</h2>
+      <p class="fliess">Löscht alle erfassten Ereignisse dieses Geräts. Nur für die Vorführung. Das lässt sich nicht rückgängig machen.</p>
+      <button type="button" class="knopf gefahr" id="knopf-reset">Demo zurücksetzen</button>
     </section>
   </section>
 
 </main>
 
-<div class="dialog-schicht" id="dialog-schicht" hidden>
+<div class="schicht" id="dialog-schicht" hidden>
   <div class="dialog" id="dialog" role="dialog" aria-modal="true" aria-labelledby="dialog-titel">
-    <h2 class="dialog-titel" id="dialog-titel"></h2>
+    <div class="dialog-kopf">
+      <span class="dialog-zeichen" id="dialog-zeichen" hidden><svg aria-hidden="true"><use href="#i-warnung"/></svg></span>
+      <h2 class="dialog-titel" id="dialog-titel"></h2>
+    </div>
     <div class="dialog-inhalt" id="dialog-inhalt"></div>
-    <div class="dialog-knoepfe" id="dialog-knoepfe"></div>
+    <div class="dialog-fuss" id="dialog-knoepfe"></div>
   </div>
 </div>
 

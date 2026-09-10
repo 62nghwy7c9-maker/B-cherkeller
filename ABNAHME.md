@@ -122,10 +122,27 @@ geschrieben, Zeile erledigt. Der Fehler war also weder still noch endgültig.
 
 ---
 
+## Zweiter Durchlauf nach der Gestaltungsänderung
+
+Am 10.09.2026 wurde die Gestaltung auf die Marke der Schule umgestellt (siehe
+`ENTSCHEIDUNGEN.md`, Abschnitt „Gestaltung"). Alle sieben Tests wurden danach
+**vollständig wiederholt und erneut bestanden**, mit denselben Zahlen wie oben.
+Die Änderung betraf Aussehen und Auszeichnung, nicht die Logik: Datenmodell,
+Ableitung, Speicherung und Zusammenführung sind unverändert.
+
+Beim Umbau angepasst wurden nur die Suchbegriffe des Testskripts
+(`.nav-knopf` → `.tab`, `.punkt` → `.status`), weil die entsprechenden
+Bausteine umbenannt wurden.
+
 ## Was zusätzlich geprüft wurde
 
 Nicht vom Bauplan verlangt, aber mitgelaufen:
 
+- **Farbkontraste gerechnet.** 19 Farbpaarungen gegen WCAG geprüft: 4,5:1 für
+  Fließtext, 3:1 für große Schrift und Grafik. Drei Paarungen fielen durch und
+  wurden ersetzt, bevor sie in die Lieferung kamen — darunter weiße Schrift auf
+  dem Marken-Orange (2,3:1). Die Rechnung steht in `ENTSCHEIDUNGEN.md`,
+  Abschnitte D bis F.
 - **Beide Bildschirmlagen.** Alle sechs Bildschirme in Quer- (1180×820) und
   Hochformat (820×1180) gerendert und angesehen. Kein Überlauf, kein
   waagerechtes Scrollen außer in der Bestandstabelle, wo es vorgesehen ist.

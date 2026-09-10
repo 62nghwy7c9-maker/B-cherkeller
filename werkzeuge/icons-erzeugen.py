@@ -12,9 +12,11 @@ import struct
 import zlib
 from pathlib import Path
 
-PAPIER = (0xEF, 0xEF, 0xEA)
-AKZENT = (0x4F, 0x5F, 0x3E)
-SCHRIFT = (0x16, 0x15, 0x0F)
+# Farben aus dem Logo der Schule (gymnasiumkerpen.eu).
+GRUND = (0x11, 0x11, 0x11)
+ORANGE = (0xFC, 0x8F, 0x00)
+GELB = (0xF9, 0xEA, 0x11)
+WEISS = (0xFF, 0xFF, 0xFF)
 
 
 def png_schreiben(pfad, breite, hoehe, pixel):
@@ -40,23 +42,23 @@ def png_schreiben(pfad, breite, hoehe, pixel):
 def symbol(groesse):
     e = groesse / 512.0  # Einheit: alles ist fuer 512 Pixel gedacht
     ruecken = [
-        (112, 150, 300, AKZENT),   # x, y, hoehe, farbe
-        (208, 118, 332, AKZENT),
-        (304, 176, 274, SCHRIFT),
+        (112, 150, 300, ORANGE),   # x, y, hoehe, farbe
+        (208, 118, 332, GELB),
+        (304, 176, 274, WEISS),
     ]
     breite_ruecken = 64
     zeilen = []
     for y in range(groesse):
         zeile = []
         for x in range(groesse):
-            farbe = PAPIER
+            farbe = GRUND
             for rx, ry, rh, rf in ruecken:
                 if rx * e <= x < (rx + breite_ruecken) * e and ry * e <= y < (ry + rh) * e:
                     farbe = rf
                     break
             # Bodenlinie (Regalbrett), Haarlinie im Sinne der Gestaltung
             if 450 * e <= y < 454 * e and 80 * e <= x < 432 * e:
-                farbe = SCHRIFT
+                farbe = WEISS
             zeile.append(farbe)
         zeilen.append(zeile)
     return zeilen
