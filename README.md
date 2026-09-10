@@ -1,8 +1,9 @@
 # Bücherkeller
 
 Eine Web-App für die jährliche Schulbuchausgabe im Keller. Sie läuft auf iPads,
-**ohne Internet**, an drei Tischen gleichzeitig. Abends werden die drei Geräte
-zusammengeführt.
+**ohne Internet**, an mehreren Tischen gleichzeitig. Wie viele Tische es sind,
+wird am Morgen eingestellt — voreingestellt sind bis zu fünf. Abends werden die
+Geräte zusammengeführt.
 
 Dies ist ein **Prototyp** mit **erfundenen Testdaten** für zwei Jahrgangsstufen.
 Er enthält keine echten Schülerdaten.
@@ -90,8 +91,17 @@ Auf dem iPad, in **Safari** (nicht in Chrome — dort funktioniert es nicht):
 
 Ab jetzt die App **immer über dieses Symbol** öffnen, nicht über Safari.
 
-Danach einmalig einrichten: **Station 1, 2 oder 3** und **Ausgabe** wählen. Jedes
-iPad bekommt eine andere Stationsnummer. Diese Auswahl bleibt gespeichert.
+Danach einmalig einrichten, in dieser Reihenfolge:
+
+1. **Wie viele Stationen sind heute besetzt?** Also: wie viele Tische stehen im
+   Keller. Auf allen iPads dieselbe Zahl eintippen — davon hängt ab, ob die App
+   abends melden kann, dass alle Geräte eingelesen sind.
+2. **An welchem Tisch steht dieses iPad?** Jedes Gerät bekommt eine andere
+   Nummer.
+3. **Ausgabe** wählen.
+
+Diese Auswahl bleibt gespeichert und lässt sich später unter **Einstellungen**
+ändern.
 
 ---
 
@@ -130,21 +140,26 @@ Hilft das nicht, das iPad neu starten und den Schüler noch einmal aufrufen.
 „Zusammenführen" heißt: die Eintragungen aller drei Tische auf einem Gerät
 sammeln, damit die Bestandszahlen stimmen.
 
-**Auf jedem der drei iPads:**
+**Auf jedem iPad:**
 
 1. App öffnen, oben auf **Sicherung** tippen.
 2. **Sicherung erstellen** antippen. Die Datei heißt zum Beispiel
    `buecherkeller-station2-2026-09-08-1432.json`.
 3. Die Datei auf **ein** Gerät bringen — per AirDrop, per E-Mail an sich selbst,
-   oder alle drei iPads in dieselbe iCloud-Ablage sichern lassen.
+   oder alle iPads in dieselbe iCloud-Ablage sichern lassen.
 
 **Dann auf dem einen Gerät:**
 
-4. **Sicherung** → **Dateien auswählen**. Alle drei Dateien auf einmal auswählen.
+4. **Sicherung** → **Dateien auswählen**. Alle Dateien auf einmal auswählen.
 5. Die App meldet zum Beispiel: „412 Ereignisse gelesen, 118 neu, 294 bereits
    vorhanden." Das ist richtig so — doppelte Eintragungen werden erkannt und
    nur einmal gezählt.
-6. Auf **Bestand** tippen. Jetzt stehen dort die echten Gesamtzahlen.
+6. **Der wichtige Satz steht darüber**: Solange etwas fehlt, sagt die App
+   welche Station — „Enthalten: Stationen 1 und 2 von 4. Es fehlen noch die
+   Stationen 3 und 4." Erst wenn alle da sind, meldet sie grün: „Alle 4
+   Stationen sind eingelesen."
+7. Auf **Bestand** tippen. Jetzt stehen dort die echten Gesamtzahlen, und der
+   Hinweis oben ist grün statt orange.
 
 Die Reihenfolge der Dateien spielt keine Rolle. Dieselben Dateien zweimal
 einzulesen schadet nicht. Es kann **nichts** doppelt gezählt werden.
@@ -172,12 +187,17 @@ Dann fehlt eine Datei auf dem Webspace. Alle Dateien noch einmal hochladen, in
 der gleichen Ordnerstruktur.
 
 **Zwei Geräte zeigen unterschiedliche Zahlen im Bestand.**
-Das ist normal und richtig. Jedes Gerät zeigt nur, was es selbst weiß. Die rote
-Zeile oben im Bestand sagt das auch. Erst nach dem Zusammenführen stimmen die
-Zahlen.
+Das ist normal und richtig. Jedes Gerät zeigt nur, was es selbst weiß. Die
+orange Zeile oben im Bestand sagt das auch. Erst nach dem Zusammenführen
+stimmen die Zahlen.
+
+**Die App meldet eine fehlende Station, die es gar nicht gab.**
+Dann steht auf diesem iPad eine zu hohe Zahl unter **Einstellungen** →
+**Stationen heute besetzt**. Zahl korrigieren, die Meldung stimmt sofort. An den
+erfassten Daten ändert das nichts.
 
 **Nach einer neuen Fassung: prüfen, ob alle iPads sie haben.**
-**Einstellungen** → **Fassung**. Auf allen drei Geräten muss dieselbe Kennung
+**Einstellungen** → **Fassung**. Auf allen Geräten muss dieselbe Kennung
 stehen. Steht dort eine alte: App schließen und zweimal öffnen.
 
 **Vor der Vorführung alles leeren.**
@@ -198,6 +218,7 @@ Der Aufbau, verkürzt:
 {
   "version": 1,
   "schuljahr": "2026/27",
+  "stationen": 5,
   "schueler": [
     { "id": "s-0001", "nachname": "Bergmann", "vorname": "Lena",
       "klasse": "5a", "stufe": 5, "kurse": ["rel"] }
@@ -221,6 +242,10 @@ Die Regel, nach der die App die Bücherliste eines Schülers bildet:
 > dieser Stufe) oder in seiner Liste `kurse` steht.
 
 Steht ein Titel in mehreren Paketen, erscheint er trotzdem nur einmal.
+
+`stationen` ist die **Obergrenze**: so viele Tische kann die Schule höchstens
+aufbauen. Wie viele davon an einem Tag wirklich besetzt sind, wird auf jedem
+iPad beim Einrichten gewählt. Fehlt der Wert, nimmt die App drei.
 
 Zwei Regeln beim Ändern:
 - Jede `id` darf nur einmal vorkommen und muss überall gleich geschrieben sein.

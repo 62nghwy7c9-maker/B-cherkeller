@@ -310,6 +310,9 @@ main { padding: 0 var(--rand-rechts) 0 var(--rand-links); }
 .banner svg { margin-top: 1px; }
 .banner.warnung { background: var(--orange-zart); color: var(--orange-text); border-color: var(--orange-rand); }
 .banner.fehler { background: var(--rot-zart); color: var(--rot-text); border-color: var(--rot-rand); }
+/* Sind alle Stationen eingelesen, sind die Zahlen vollstaendig. Eine
+   Warnung, die dann weiter warnt, wird beim naechsten Mal nicht gelesen. */
+.banner.fertig { background: var(--gruen-zart); color: var(--gruen-text); border-color: #B7DFC7; }
 .tafel.gepolstert .banner { margin: 18px 0 0; }
 
 .leerzustand { padding: 56px 24px 64px; text-align: center; }
@@ -326,6 +329,11 @@ main { padding: 0 var(--rand-rechts) 0 var(--rand-links); }
 .kachelreihe { display: grid; gap: 10px; }
 .kachelreihe.drei { grid-template-columns: repeat(3, 1fr); }
 .kachelreihe.zwei { grid-template-columns: repeat(2, 1fr); }
+/* Wie viele Stationen es gibt, steht in den Stammdaten. Die Reihe muss
+   deshalb mit jeder Zahl umgehen, ohne dass die Kacheln unbedienbar
+   schmal werden. */
+.kachelreihe.knapp { grid-template-columns: repeat(auto-fit, minmax(104px, 1fr)); }
+.kachelreihe.knapp .kachel { min-height: 92px; align-items: center; text-align: center; }
 
 .kachel {
   display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 2px;

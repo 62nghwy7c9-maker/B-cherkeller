@@ -41,6 +41,60 @@ Umlaut-Suche vorführbar ist. Keine realen Personen.
 
 ---
 
+## Stationen
+
+**A1. Wie viele Stationen es geben darf, steht in den Stammdaten.**
+`"stationen": 5` in `daten/stammdaten.json`. Der Bauplan nennt drei; die
+Auftraggeberin hat vier bis fünf verlangt. Statt die neue Zahl fest zu
+verdrahten, folgt sie derselben Regel wie die Jahrgangsstufen: eine Datei
+tauschen, nichts am Code. Fehlt der Wert, bleibt es bei drei. Nach oben auf
+neun begrenzt — darüber wären die Kacheln auf einem iPad nicht mehr sicher zu
+treffen.
+
+**A2. Wie viele davon besetzt sind, steht auf jedem Gerät.**
+Das ist eine Entscheidung des Morgens, nicht der Stammdaten: sie hängt daran,
+wer heute Zeit hat. Sie in die Stammdaten zu legen hieße, am Ausgabetag eine
+Datei neu hochzuladen — genau dann, wenn niemand dafür Zeit hat. Also wird sie
+beim Einrichten des iPads gewählt, gleich vor der Stationsnummer, und ist unter
+Einstellungen änderbar.
+
+**A3. Der Startbildschirm zeigt eine Frage nach der anderen.**
+Erst die Anzahl, dann erscheinen so viele Stationskacheln, dann der Modus. Alle
+drei Felder gleichzeitig zu zeigen hieße, dass jemand eine Station 4 antippt,
+die es heute nicht gibt. Wer die Anzahl nachträglich verkleinert, verliert eine
+zu hohe Stationswahl automatisch.
+
+**A4. Die Zahl kann zwischen den Geräten auseinanderlaufen — mit Absicht.**
+Steht auf einem iPad 4 und auf einem anderen 5, unterscheiden sich nur die
+Hinweiszeilen, nicht die Daten. Eine Abstimmung zwischen den Geräten gäbe es
+nur mit einer Verbindung, und die soll es nicht geben. Der Preis ist eine
+möglicherweise falsche Meldung auf einem Gerät; der Gegenwert wäre ein Server.
+Die Einstellungen sagen ausdrücklich, dass die Zahl überall gleich stehen muss,
+und die README nennt den Fall unter „Wenn etwas schiefgeht".
+
+**A5. Die Warnung im Bestand hört auf zu warnen, wenn alles da ist.**
+Solange Stationen fehlen, benennt sie sie: „3 von 4 Stationen eingelesen
+(1, 2 und 3). Es fehlt noch Station 4." Sind alle da, wird aus der orangenen
+Warnung eine grüne Bestätigung: „Alle 4 Stationen sind eingelesen. Diese Zahlen
+sind vollständig." Eine Warnung, die auch dann noch warnt, wenn alles stimmt,
+wird beim nächsten Mal nicht mehr gelesen — und genau dann wäre sie nötig.
+
+Damit weicht die Zeile ein zweites Mal vom Wortlaut des Bauplans ab (siehe
+Punkt 19). Der Zweck der Vorgabe bleibt erfüllt und wird schärfer: Der Bauplan
+will verhindern, dass jemand unvollständige Zahlen für endgültig hält. Die App
+sagt jetzt nicht nur *dass* etwas fehlt, sondern *was*.
+
+**A6. Grün steht jetzt auch für „vollständig zusammengeführt".**
+Die Farbdisziplin sagt: Grün heißt erledigt. Eine abgeschlossene
+Zusammenführung ist erledigt. Das ist dieselbe Bedeutung auf einer anderen
+Ebene, keine zweite.
+
+**A7. Derselbe Hinweis steht auf dem Sicherungs-Bildschirm.**
+Dort steht abends der Mensch, der zusammenführt. Er soll nicht erst in den
+Bestand wechseln müssen, um zu sehen, ob er fertig ist.
+
+---
+
 ## Speicherung
 
 **6. Ereignisse werden zusätzlich im Arbeitsspeicher gespiegelt.**

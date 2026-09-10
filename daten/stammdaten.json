@@ -1,6 +1,7 @@
 {
   "version": 1,
   "schuljahr": "2026/27",
+  "stationen": 5,
   "hinweis": "Erfundene Testdaten. Keine realen Personen.",
   "schueler": [
     {

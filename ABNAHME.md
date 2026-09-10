@@ -134,6 +134,24 @@ Beim Umbau angepasst wurden nur die Suchbegriffe des Testskripts
 (`.nav-knopf` → `.tab`, `.punkt` → `.status`), weil die entsprechenden
 Bausteine umbenannt wurden.
 
+## Dritter Durchlauf: mehr als drei Stationen
+
+Am 10.09.2026 wurde die Zahl der Ausgabestationen einstellbar gemacht (bis zu
+fünf, siehe `ENTSCHEIDUNGEN.md`, Abschnitt „Stationen"). Alle sieben Tests
+erneut gefahren, **7 von 7 bestanden**, mit denselben Zahlen.
+
+Test 3 prüft die neue Funktion jetzt mit: Nach dem Einlesen von drei
+Sicherungsdateien meldet
+
+- ein auf **vier** Stationen eingestelltes Gerät die Lücke —
+  *„3 von 4 Stationen eingelesen (1, 2 und 3). Es fehlt noch Station 4. Bis
+  dahin sind die Zahlen unvollständig."*
+- ein auf **drei** Stationen eingestelltes Gerät die Vollständigkeit —
+  *„Alle 3 Stationen sind eingelesen. Diese Zahlen sind vollständig."*, und der
+  Hinweis wechselt von Orange auf Grün.
+
+Beide Meldungen werden im Test wörtlich geprüft, nicht nur ihr Vorhandensein.
+
 ## Was zusätzlich geprüft wurde
 
 Nicht vom Bauplan verlangt, aber mitgelaufen:

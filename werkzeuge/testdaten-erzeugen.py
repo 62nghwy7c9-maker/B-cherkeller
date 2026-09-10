@@ -120,6 +120,10 @@ def main():
     stammdaten = {
         "version": 1,
         "schuljahr": "2026/27",
+        # Wie viele Ausgabestationen die Schule hoechstens aufbauen kann.
+        # Wie viele davon an einem Tag wirklich besetzt sind, wird auf jedem
+        # iPad beim Einrichten gewaehlt. Fehlt der Wert, nimmt die App 3.
+        "stationen": 5,
         "hinweis": "Erfundene Testdaten. Keine realen Personen.",
         "schueler": schueler,
         "titel": titel,

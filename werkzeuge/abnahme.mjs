@@ -65,8 +65,9 @@ async function laden(ctx) {
   return { page, fehlgeschlagen };
 }
 
-async function einrichten(page, station, modus = 'ausgabe') {
+async function einrichten(page, station, modus = 'ausgabe', anzahl = 3) {
   if (await page.locator('#v-start').isVisible()) {
+    await page.click(`[data-anzahl="${anzahl}"]`);
     await page.click(`[data-station="${station}"]`);
     await page.click(`[data-modus="${modus}"]`);
     await page.click('#start-weiter');
@@ -135,6 +136,15 @@ async function bestandTabelle(page) {
   await page.waitForSelector('#v-bestand:not([hidden])');
   return page.evaluate(() => [...document.querySelectorAll('#bestand-koerper tr')]
     .map((tr) => [...tr.children].map((td) => td.textContent).join('|')).join('\n'));
+}
+
+async function bestandBanner(page) {
+  await page.click('.tab[data-ziel="bestand"]');
+  await page.waitForSelector('#v-bestand:not([hidden])');
+  return page.evaluate(() => ({
+    text: document.getElementById('bestand-warnung-text').textContent.trim(),
+    fertig: document.getElementById('bestand-warnung').classList.contains('fertig'),
+  }));
 }
 
 async function exportieren(page) {
@@ -282,21 +292,23 @@ async function test34() {
   // Zusammenführen auf einem vierten Gerät, Reihenfolge A
   const gA = await neuesGeraet();
   const { page: pA } = await laden(gA.ctx);
-  await einrichten(pA, '1');
+  await einrichten(pA, '1', 'ausgabe', 4);   // Gerät erwartet vier Stationen
   const meldungA = await importieren(pA, [datei1, datei2, datei3]);
   const anzahlA = await ereignisAnzahl(pA);
   const bestandA = await bestandTabelle(pA);
+  const bannerA = await bestandBanner(pA);
   await gA.ctx.close();
 
   // Reihenfolge B
   const gB = await neuesGeraet();
   const { page: pB } = await laden(gB.ctx);
-  await einrichten(pB, '1');
+  await einrichten(pB, '1', 'ausgabe', 3);   // Gerät erwartet drei Stationen
   await importieren(pB, [datei3]);
   await importieren(pB, [datei2]);
   const meldungB = await importieren(pB, [datei1]);
   const anzahlB = await ereignisAnzahl(pB);
   const bestandB = await bestandTabelle(pB);
+  const bannerB = await bestandBanner(pB);
   await gB.ctx.close();
 
   // Unabhängig nachgerechnet
@@ -322,12 +334,16 @@ async function test34() {
       t.bestandGesamt - z.ausgegeben - z.fehlt].join('|');
   }).join('\n');
 
-  const ok3 = anzahlA === eindeutig && bestandA === erwartet;
+  const meldetLuecke = bannerA.text.includes('Station 4') && !bannerA.fertig;
+  const meldetVollstaendig = bannerB.fertig && bannerB.text.includes('Alle 3 Stationen');
+  const ok3 = anzahlA === eindeutig && bestandA === erwartet && meldetLuecke && meldetVollstaendig;
   melde(3, 'Zusammenführung', ok3,
     `Drei Dateien mit ${gesamtZeilen} Zeilen, davon ${eindeutig} verschiedene Ereignisse `
     + `(Datei 2 enthält Datei 1 vollständig — echte Überschneidung). `
     + `Nach dem Einlesen aller drei: ${anzahlA} Ereignisse. Meldung der App: "${(meldungA || '').trim()}". `
-    + `Bestandstabelle stimmt mit unabhängiger Nachrechnung überein: ${bestandA === erwartet ? 'ja' : 'nein'}.`);
+    + `Bestandstabelle stimmt mit unabhängiger Nachrechnung überein: ${bestandA === erwartet ? 'ja' : 'nein'}. `
+    + `Gerät auf vier Stationen eingestellt meldet die Lücke: "${bannerA.text}". `
+    + `Gerät auf drei Stationen meldet Vollständigkeit: "${bannerB.text}".`);
 
   const ok4 = anzahlA === anzahlB && bestandA === bestandB;
   melde(4, 'Reihenfolge-Test', ok4,

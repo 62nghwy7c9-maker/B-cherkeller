@@ -82,16 +82,18 @@
     </div>
 
     <fieldset class="feld">
-      <legend class="feld-legende">Station</legend>
-      <p class="feld-hilfe">An welchem Tisch steht dieses iPad? Jedes Gerät bekommt eine eigene Nummer.</p>
-      <div class="kachelreihe drei" id="start-stationen">
-        <button type="button" class="kachel" data-station="1" aria-pressed="false"><span class="kachel-zahl">1</span><span class="kachel-wort">Station</span></button>
-        <button type="button" class="kachel" data-station="2" aria-pressed="false"><span class="kachel-zahl">2</span><span class="kachel-wort">Station</span></button>
-        <button type="button" class="kachel" data-station="3" aria-pressed="false"><span class="kachel-zahl">3</span><span class="kachel-wort">Station</span></button>
-      </div>
+      <legend class="feld-legende">Wie viele Stationen sind heute besetzt?</legend>
+      <p class="feld-hilfe">So viele Tische stehen im Keller. Die Zahl entscheidet am Abend, ob die App melden kann, dass alle Geräte eingelesen sind.</p>
+      <div class="kachelreihe knapp" id="start-anzahl"></div>
     </fieldset>
 
-    <fieldset class="feld">
+    <fieldset class="feld" id="feld-station" hidden>
+      <legend class="feld-legende">An welchem Tisch steht dieses iPad?</legend>
+      <p class="feld-hilfe">Jedes Gerät bekommt eine eigene Nummer. Sie steht in jedem erfassten Ereignis.</p>
+      <div class="kachelreihe knapp" id="start-stationen"></div>
+    </fieldset>
+
+    <fieldset class="feld" id="feld-modus" hidden>
       <legend class="feld-legende">Modus</legend>
       <p class="feld-hilfe">Bestimmt, was ein Häkchen bedeutet. Später in den Einstellungen änderbar.</p>
       <div class="kachelreihe zwei" id="start-modi">
@@ -198,7 +200,12 @@
   <section class="sicht schmal" id="v-sicherung" hidden>
     <div class="seitenkopf">
       <h1>Sicherung</h1>
-      <p class="unterzeile">Derselbe Bildschirm sichert das Gerät und führt abends die drei Stationen zusammen.</p>
+      <p class="unterzeile">Derselbe Bildschirm sichert das Gerät und führt abends alle Stationen zusammen.</p>
+    </div>
+
+    <div class="banner warnung" id="stand" hidden>
+      <svg aria-hidden="true"><use href="#i-info"/></svg>
+      <p id="stand-text"></p>
     </div>
 
     <section class="tafel gepolstert">
@@ -236,6 +243,14 @@
       </div>
       <div class="einstellzeile">
         <div class="einstellzeile-text">
+          <p class="einstell-label">Stationen heute besetzt</p>
+          <p class="einstell-wert" id="ein-anzahl"></p>
+          <p class="mikrotext">Muss auf allen iPads gleich stehen, sonst meldet die App am Abend fälschlich fehlende Stationen.</p>
+        </div>
+        <button type="button" class="knopf zweit klein" id="knopf-anzahl-wechseln">Ändern</button>
+      </div>
+      <div class="einstellzeile">
+        <div class="einstellzeile-text">
           <p class="einstell-label">Modus</p>
           <p class="einstell-wert" id="ein-modus"></p>
         </div>
@@ -245,7 +260,7 @@
         <div class="einstellzeile-text">
           <p class="einstell-label">Fassung</p>
           <p class="einstell-wert" id="ein-version"></p>
-          <p class="mikrotext">Diese Kennung muss auf allen drei iPads gleich sein.</p>
+          <p class="mikrotext">Diese Kennung muss auf allen iPads gleich sein.</p>
         </div>
       </div>
       <div class="einstellzeile">

@@ -13,7 +13,7 @@
  * Fassung.
  */
 
-const CACHE_NAME = 'buecherkeller-2026-09-10-2';
+const CACHE_NAME = 'buecherkeller-2026-09-10-3';
 
 const DATEIEN = [
   './',

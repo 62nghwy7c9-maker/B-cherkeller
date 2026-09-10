@@ -26,13 +26,14 @@
 
 /* Diese Kennung steht in den Einstellungen und muss mit CACHE_NAME in
    sw.js übereinstimmen. Bei jeder Änderung an den Dateien beide erhöhen. */
-export const FASSUNG = '2026-09-10-2';
+export const FASSUNG = '2026-09-10-3';
 
 const DB_NAME = 'buecherkeller';
 const DB_FASSUNG = 1;
 const STORE = 'ereignisse';
 
 const SPEICHER_STATION = 'buecherkeller.station';
+const SPEICHER_ANZAHL = 'buecherkeller.stationen';
 const SPEICHER_MODUS = 'buecherkeller.modus';
 const SPEICHER_SICHERUNG_ANZAHL = 'buecherkeller.sicherung.anzahl';
 const SPEICHER_SICHERUNG_ZEIT = 'buecherkeller.sicherung.zeit';
@@ -77,6 +78,11 @@ window.buecherkellerPruefstand = pruefstand;
 const einstellungen = {
   get station() { return localStorage.getItem(SPEICHER_STATION); },
   set station(v) { localStorage.setItem(SPEICHER_STATION, v); },
+  /* Wie viele Stationen heute besetzt sind. Steht auf jedem Gerät einzeln,
+     weil die Zahl am Morgen beim Aufbau feststeht und nicht in den
+     Stammdaten liegen kann — dort steht nur, wie viele es geben darf. */
+  get stationenAktiv() { return Number(localStorage.getItem(SPEICHER_ANZAHL) || 0); },
+  set stationenAktiv(v) { localStorage.setItem(SPEICHER_ANZAHL, String(v)); },
   get modus() { return localStorage.getItem(SPEICHER_MODUS); },
   set modus(v) { localStorage.setItem(SPEICHER_MODUS, v); },
   get sicherungAnzahl() { return Number(localStorage.getItem(SPEICHER_SICHERUNG_ANZAHL) || 0); },
@@ -176,6 +182,9 @@ function neueId() {
  * ------------------------------------------------------------------ */
 
 let stammdaten = null;
+/* Obergrenze: so viele Stationen kann diese Schule aufbauen. Fehlt der Wert
+   in den Stammdaten, bleibt es bei den drei aus dem Bauplan. */
+let stationenMax = 3;
 const titelNach = new Map();     // titelId -> Titel
 const schuelerNach = new Map();  // schuelerId -> Schüler
 const paketListe = new Map();    // schuelerId -> [Titel]
@@ -192,6 +201,9 @@ async function stammdatenLaden() {
   const antwort = await fetch('daten/stammdaten.json');
   if (!antwort.ok) throw new Error('stammdaten.json nicht lesbar');
   stammdaten = await antwort.json();
+
+  const roh = Number(stammdaten.stationen);
+  stationenMax = Number.isFinite(roh) ? Math.min(9, Math.max(1, Math.trunc(roh))) : 3;
 
   for (const t of stammdaten.titel) titelNach.set(t.id, t);
 
@@ -372,6 +384,7 @@ function sichtZeigen(name) {
     else knopf.removeAttribute('aria-current');
   }
   window.scrollTo(0, 0);
+  if (name === 'start') startZeichnen();
   if (name === 'suche') sucheOeffnen();
   if (name === 'bestand') bestandZeichnen();
   if (name === 'sicherung') sicherungZeichnen();
@@ -407,7 +420,10 @@ function kopfZeichnen() {
   zSeitHuelle.classList.toggle('mahnung', einstellungen.abgeschlossen >= SICHERUNG_ALLE - 2);
   kopfStation.replaceChildren();
   if (einstellungen.station) {
-    kopfStation.append(chip(`Station ${einstellungen.station}`), chip(modusWort()));
+    const n = einstellungen.stationenAktiv;
+    kopfStation.append(
+      chip(n ? `Station ${einstellungen.station} von ${n}` : `Station ${einstellungen.station}`),
+      chip(modusWort()));
   }
 }
 
@@ -415,19 +431,67 @@ function kopfZeichnen() {
  * 8  Ansicht Start
  * ------------------------------------------------------------------ */
 
+let startAnzahl = null;
 let startStation = null;
 let startModus = null;
 
 const startWeiter = document.getElementById('start-weiter');
+const startAnzahlReihe = document.getElementById('start-anzahl');
+const startStationReihe = document.getElementById('start-stationen');
+const feldStation = document.getElementById('feld-station');
+const feldModus = document.getElementById('feld-modus');
+const startFussnote = document.getElementById('start-fussnote');
 
-document.getElementById('start-stationen').addEventListener('click', (e) => {
+/* Baut eine Reihe Kacheln mit den Zahlen 1..anzahl.
+   wort ist [Einzahl, Mehrzahl] — „1 Stationen" liest sich wie ein Fehler. */
+function zahlkacheln(reihe, anzahl, wort, gewaehlt, attribut) {
+  reihe.replaceChildren();
+  for (let n = 1; n <= anzahl; n += 1) {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'kachel';
+    b.dataset[attribut] = String(n);
+    b.setAttribute('aria-pressed', String(String(gewaehlt) === String(n)));
+    const zahl = document.createElement('span');
+    zahl.className = 'kachel-zahl';
+    zahl.textContent = String(n);
+    const label = document.createElement('span');
+    label.className = 'kachel-wort';
+    label.textContent = n === 1 ? wort[0] : wort[1];
+    b.append(zahl, label);
+    reihe.append(b);
+  }
+}
+
+function startZeichnen() {
+  zahlkacheln(startAnzahlReihe, stationenMax, ['Station', 'Stationen'], startAnzahl, 'anzahl');
+  feldStation.hidden = !startAnzahl;
+  if (startAnzahl) {
+    zahlkacheln(startStationReihe, startAnzahl, ['Station', 'Station'], startStation, 'station');
+  }
+  feldModus.hidden = !startStation;
+  startWeiter.disabled = !(startAnzahl && startStation && startModus);
+  startFussnote.textContent = !startAnzahl
+    ? 'Zuerst die Anzahl der besetzten Stationen wählen.'
+    : !startStation ? 'Jetzt den eigenen Tisch wählen.'
+    : !startModus ? 'Zuletzt den Modus wählen.'
+    : 'Alles gewählt. Diese Auswahl bleibt gespeichert.';
+}
+
+startAnzahlReihe.addEventListener('click', (e) => {
+  const b = e.target.closest('[data-anzahl]');
+  if (!b) return;
+  startAnzahl = Number(b.dataset.anzahl);
+  /* Eine bereits gewählte Station, die es nun nicht mehr gibt, verfällt. */
+  if (startStation && Number(startStation) > startAnzahl) startStation = null;
+  startZeichnen();
+});
+
+startStationReihe.addEventListener('click', (e) => {
   const b = e.target.closest('[data-station]');
   if (!b) return;
   startStation = b.dataset.station;
-  for (const k of document.querySelectorAll('[data-station]')) {
-    k.setAttribute('aria-pressed', String(k === b));
-  }
-  startPruefen();
+  startZeichnen();
 });
 
 document.getElementById('start-modi').addEventListener('click', (e) => {
@@ -437,15 +501,12 @@ document.getElementById('start-modi').addEventListener('click', (e) => {
   for (const k of document.querySelectorAll('[data-modus]')) {
     k.setAttribute('aria-pressed', String(k === b));
   }
-  startPruefen();
+  startZeichnen();
 });
 
-function startPruefen() {
-  startWeiter.disabled = !(startStation && startModus);
-}
-
 startWeiter.addEventListener('click', () => {
-  if (!startStation || !startModus) return;
+  if (!startAnzahl || !startStation || !startModus) return;
+  einstellungen.stationenAktiv = startAnzahl;
   einstellungen.station = startStation;
   einstellungen.modus = startModus;
   kopfZeichnen();
@@ -765,6 +826,7 @@ function schuelerAbschliessen() {
 
 const bestandKoerper = document.getElementById('bestand-koerper');
 const bestandWarnung = document.getElementById('bestand-warnung-text');
+const bestandBanner = document.getElementById('bestand-warnung');
 
 function bestandZaehlen() {
   const zahlen = new Map();
@@ -788,15 +850,51 @@ function stationenImBestand() {
   return [...menge].sort();
 }
 
+/* Formuliert eine Aufzählung so, wie ein Mensch sie schreiben würde. */
+function aufzaehlung(liste) {
+  if (liste.length <= 1) return liste.join('');
+  return `${liste.slice(0, -1).join(', ')} und ${liste[liste.length - 1]}`;
+}
+
+/* „Es fehlt noch Station 4." gegen „Es fehlen noch die Stationen 1, 3 und 4."
+   Einmal gebaut, damit die Grammatik nicht an zwei Stellen auseinanderläuft. */
+function fehltSatz(fehlend) {
+  return fehlend.length === 1
+    ? `Es fehlt noch Station ${fehlend[0]}.`
+    : `Es fehlen noch die Stationen ${aufzaehlung(fehlend)}.`;
+}
+
 function bestandZeichnen() {
-  const stationen = stationenImBestand();
-  if (stationen.length > 1) {
-    bestandWarnung.textContent =
-      `Enthält Stationen ${stationen.join(', ')}. `
-      + 'Gesamtzahlen nur dann, wenn die Sicherungen aller drei Stationen eingelesen sind.';
+  const da = stationenImBestand();
+  const soll = einstellungen.stationenAktiv;
+  bestandBanner.classList.remove('fertig');
+  bestandBanner.classList.add('warnung');
+
+  if (!soll) {
+    /* Ohne bekannte Anzahl bleibt nur die Aussage des Bauplans. */
+    bestandWarnung.textContent = da.length > 1
+      ? `Enthält Stationen ${aufzaehlung(da)}. Gesamtzahlen erst, wenn alle Stationen eingelesen sind.`
+      : `Nur Station ${einstellungen.station || '?'}. Gesamtzahlen erst nach dem Zusammenführen.`;
   } else {
-    bestandWarnung.textContent =
-      `Nur Station ${einstellungen.station || '?'}. Gesamtzahlen erst nach dem Zusammenführen.`;
+    const fehlend = [];
+    for (let n = 1; n <= soll; n += 1) if (!da.includes(String(n))) fehlend.push(String(n));
+
+    if (fehlend.length === 0 && da.length) {
+      /* Eine Warnung, die auch dann noch warnt, wenn alles stimmt, wird beim
+         nächsten Mal nicht mehr gelesen. Also hört sie hier auf. */
+      bestandBanner.classList.remove('warnung');
+      bestandBanner.classList.add('fertig');
+      bestandWarnung.textContent =
+        `Alle ${soll} Stationen sind eingelesen. Diese Zahlen sind vollständig.`;
+    } else if (da.length <= 1) {
+      bestandWarnung.textContent =
+        `Nur Station ${einstellungen.station || '?'} von ${soll}. `
+        + 'Gesamtzahlen erst nach dem Zusammenführen.';
+    } else {
+      bestandWarnung.textContent =
+        `${da.length} von ${soll} Stationen eingelesen (${aufzaehlung(da)}). `
+        + `${fehltSatz(fehlend)} Bis dahin sind die Zahlen unvollständig.`;
+    }
   }
 
   const zahlen = bestandZaehlen();
@@ -847,7 +945,26 @@ const sicherungAnzahlEl = document.getElementById('sicherung-anzahl');
 const sicherungLetzteEl = document.getElementById('sicherung-letzte');
 const importMeldung = document.getElementById('import-meldung');
 const importMeldungText = document.getElementById('import-meldung-text');
+const standEl = document.getElementById('stand');
+const standText = document.getElementById('stand-text');
 const dateiEingabe = document.getElementById('datei-eingabe');
+
+/* Zeigt auf dem Sicherungs-Bildschirm, welche Stationen schon drin sind.
+   Genau dort steht der Mensch, der abends zusammenführt. */
+function standZeichnen() {
+  const da = stationenImBestand();
+  const soll = einstellungen.stationenAktiv;
+  if (!soll || !da.length) { standEl.hidden = true; return; }
+  const fehlend = [];
+  for (let n = 1; n <= soll; n += 1) if (!da.includes(String(n))) fehlend.push(String(n));
+  standEl.hidden = false;
+  standEl.classList.toggle('fertig', fehlend.length === 0);
+  standEl.classList.toggle('warnung', fehlend.length > 0);
+  standText.textContent = fehlend.length === 0
+    ? `Alle ${soll} Stationen sind eingelesen. Die Zusammenführung ist vollständig.`
+    : `Enthalten: ${da.length === 1 ? 'Station' : 'Stationen'} ${aufzaehlung(da)} von ${soll}. `
+      + fehltSatz(fehlend);
+}
 
 function meldung(text, istFehler) {
   importMeldung.hidden = false;
@@ -857,6 +974,7 @@ function meldung(text, istFehler) {
 
 function sicherungZeichnen() {
   sicherungAnzahlEl.textContent = String(ereignisse.length);
+  standZeichnen();
   const zeit = einstellungen.sicherungZeit;
   sicherungLetzteEl.textContent = zeit
     ? `Letzte Sicherung: ${lesbareZeit(zeit)} mit ${einstellungen.sicherungAnzahl} Ereignissen.`
@@ -984,7 +1102,12 @@ export async function sicherungenEinlesen(dateien) {
  * ------------------------------------------------------------------ */
 
 function einstellungenZeichnen() {
-  document.getElementById('ein-station').textContent = `Station ${einstellungen.station || '—'}`;
+  const n = einstellungen.stationenAktiv;
+  document.getElementById('ein-anzahl').textContent = n
+    ? `${n} ${n === 1 ? 'Station' : 'Stationen'} von höchstens ${stationenMax}`
+    : '—';
+  document.getElementById('ein-station').textContent =
+    n ? `Station ${einstellungen.station || '—'} von ${n}` : `Station ${einstellungen.station || '—'}`;
   document.getElementById('ein-modus').textContent =
     einstellungen.modus === 'rueckgabe' ? 'Rücknahme' : 'Ausgabe';
   document.getElementById('ein-version').textContent = FASSUNG;
@@ -1011,34 +1134,69 @@ document.getElementById('knopf-modus-wechseln').addEventListener('click', () => 
   });
 });
 
-document.getElementById('knopf-station-wechseln').addEventListener('click', () => {
+/* Ein Auswahldialog für beide Zahlen — Station und Anzahl der Stationen. */
+function zahlWaehlen({ titel, erklaerung, bis, gewaehlt, wort, gewaehlt_fn }) {
   const huelle = document.createElement('div');
   const p = document.createElement('p');
-  p.textContent = 'Die Stationsnummer steht in jedem neuen Ereignis. Sie zu ändern ist nur nötig, wenn dieses iPad an einem anderen Tisch steht.';
+  p.textContent = erklaerung;
   const reihe = document.createElement('div');
-  reihe.className = 'kachelreihe drei';
-  for (const n of ['1', '2', '3']) {
+  reihe.className = 'kachelreihe knapp';
+  for (let n = 1; n <= bis; n += 1) {
     const b = document.createElement('button');
     b.type = 'button';
     b.className = 'kachel';
-    b.setAttribute('aria-pressed', String(einstellungen.station === n));
+    b.setAttribute('aria-pressed', String(String(gewaehlt) === String(n)));
     const zahl = document.createElement('span');
     zahl.className = 'kachel-zahl';
-    zahl.textContent = n;
-    b.append(zahl);
-    b.addEventListener('click', () => {
-      einstellungen.station = n;
-      dialogSchliessen();
-      kopfZeichnen();
-      einstellungenZeichnen();
-    });
+    zahl.textContent = String(n);
+    const label = document.createElement('span');
+    label.className = 'kachel-wort';
+    label.textContent = n === 1 ? wort[0] : wort[1];
+    b.append(zahl, label);
+    b.addEventListener('click', () => gewaehlt_fn(n));
     reihe.append(b);
   }
   huelle.append(p, reihe);
   dialogZeigen({
-    titel: 'Station ändern',
+    titel,
     inhalt: huelle,
     knoepfe: [{ text: 'Abbrechen', art: 'zweit', fn: dialogSchliessen }],
+  });
+}
+
+document.getElementById('knopf-station-wechseln').addEventListener('click', () => {
+  zahlWaehlen({
+    titel: 'Station ändern',
+    erklaerung: 'Die Stationsnummer steht in jedem neuen Ereignis. Sie zu ändern ist nur nötig, wenn dieses iPad an einem anderen Tisch steht. Bereits erfasste Ereignisse behalten ihre alte Nummer.',
+    bis: Math.max(einstellungen.stationenAktiv || stationenMax, Number(einstellungen.station) || 1),
+    gewaehlt: einstellungen.station,
+    wort: ['Station', 'Station'],
+    gewaehlt_fn: (n) => {
+      einstellungen.station = String(n);
+      dialogSchliessen();
+      kopfZeichnen();
+      einstellungenZeichnen();
+    },
+  });
+});
+
+document.getElementById('knopf-anzahl-wechseln').addEventListener('click', () => {
+  zahlWaehlen({
+    titel: 'Wie viele Stationen sind heute besetzt?',
+    erklaerung: 'Die Zahl ändert nichts an den erfassten Daten. Sie entscheidet nur, ab wann die App meldet, dass alle Geräte eingelesen sind.',
+    bis: stationenMax,
+    gewaehlt: einstellungen.stationenAktiv,
+    wort: ['Station', 'Stationen'],
+    gewaehlt_fn: (n) => {
+      einstellungen.stationenAktiv = n;
+      /* Steht dieses Gerät auf einer Station, die es nun nicht mehr gibt,
+         bleibt die Nummer stehen — die erfassten Ereignisse tragen sie ja
+         bereits. Die Einstellungen zeigen den Widerspruch offen an. */
+      dialogSchliessen();
+      kopfZeichnen();
+      einstellungenZeichnen();
+      if (aktuelleSicht === 'bestand') bestandZeichnen();
+    },
   });
 });
 
@@ -1186,6 +1344,13 @@ async function starten() {
   }
 
   kopfZeichnen();
+
+  /* Geräte, die vor dieser Fassung eingerichtet wurden, kennen die Anzahl
+     nicht. Sie bekommen den Wert aus dem Bauplan, ohne neu eingerichtet
+     werden zu müssen. */
+  if (einstellungen.station && einstellungen.modus && !einstellungen.stationenAktiv) {
+    einstellungen.stationenAktiv = Math.max(3, Number(einstellungen.station) || 3);
+  }
 
   if (einstellungen.station && einstellungen.modus) {
     sichtZeigen('suche');
