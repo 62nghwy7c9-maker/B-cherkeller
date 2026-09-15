@@ -1,0 +1,118 @@
+{
+  "schemaVersion": "ecc.install.v1",
+  "installedAt": "2026-09-15T11:15:21.739Z",
+  "target": {
+    "id": "claude-project",
+    "target": "claude-project",
+    "kind": "project",
+    "root": "/home/user/B-cherkeller/.claude",
+    "installStatePath": "/home/user/B-cherkeller/.claude/ecc/install-state.json"
+  },
+  "request": {
+    "profile": null,
+    "modules": [],
+    "includeComponents": [
+      "skill:accessibility",
+      "skill:context-budget",
+      "skill:click-path-audit",
+      "skill:skill-stocktake"
+    ],
+    "excludeComponents": [],
+    "legacyLanguages": [],
+    "legacyMode": false,
+    "hookConsent": null
+  },
+  "resolution": {
+    "selectedModules": [
+      "skill-accessibility",
+      "skill-click-path-audit",
+      "skill-context-budget",
+      "skill-skill-stocktake"
+    ],
+    "skippedModules": []
+  },
+  "source": {
+    "repoVersion": "2.2.1",
+    "repoCommit": "8321021c54d670126ce3b2969d5deb880b4b0c2a",
+    "manifestVersion": 1
+  },
+  "operations": [
+    {
+      "kind": "copy-file",
+      "moduleId": "skill-accessibility",
+      "sourcePath": "/tmp/claude-0/-home-user-B-cherkeller/c6d7e140-2be2-559b-9d40-66802c9e8b3e/scratchpad/ecc/skills/accessibility/SKILL.md",
+      "sourceRelativePath": "skills/accessibility/SKILL.md",
+      "destinationPath": "/home/user/B-cherkeller/.claude/skills/accessibility/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "d8578fe750e7321658450386e2112a46ea1aedca0235fbf97f3db2457e599b3a"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "skill-click-path-audit",
+      "sourcePath": "/tmp/claude-0/-home-user-B-cherkeller/c6d7e140-2be2-559b-9d40-66802c9e8b3e/scratchpad/ecc/skills/click-path-audit/SKILL.md",
+      "sourceRelativePath": "skills/click-path-audit/SKILL.md",
+      "destinationPath": "/home/user/B-cherkeller/.claude/skills/click-path-audit/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "662fc5d02483bcd8ff799d6d3109a38da673182341cfc14445e9076fcd920162"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "skill-context-budget",
+      "sourcePath": "/tmp/claude-0/-home-user-B-cherkeller/c6d7e140-2be2-559b-9d40-66802c9e8b3e/scratchpad/ecc/skills/context-budget/SKILL.md",
+      "sourceRelativePath": "skills/context-budget/SKILL.md",
+      "destinationPath": "/home/user/B-cherkeller/.claude/skills/context-budget/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "920c5edde48e495b267fb0d42d8411c8b75ce1d8ab76e793b2eb6d23da01b0f1"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "skill-skill-stocktake",
+      "sourcePath": "/tmp/claude-0/-home-user-B-cherkeller/c6d7e140-2be2-559b-9d40-66802c9e8b3e/scratchpad/ecc/skills/skill-stocktake/SKILL.md",
+      "sourceRelativePath": "skills/skill-stocktake/SKILL.md",
+      "destinationPath": "/home/user/B-cherkeller/.claude/skills/skill-stocktake/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "aa8f287c48c5a33bf15094358ffccbe0d4faff9eee9fa2ffcd70c8e9f3d22cdd"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "skill-skill-stocktake",
+      "sourcePath": "/tmp/claude-0/-home-user-B-cherkeller/c6d7e140-2be2-559b-9d40-66802c9e8b3e/scratchpad/ecc/skills/skill-stocktake/scripts/quick-diff.sh",
+      "sourceRelativePath": "skills/skill-stocktake/scripts/quick-diff.sh",
+      "destinationPath": "/home/user/B-cherkeller/.claude/skills/skill-stocktake/scripts/quick-diff.sh",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "ebb95f8bb38e2cc1624d16b9f4eaa075b0f2aaff352cd1d1c8b6f04a7e75beca"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "skill-skill-stocktake",
+      "sourcePath": "/tmp/claude-0/-home-user-B-cherkeller/c6d7e140-2be2-559b-9d40-66802c9e8b3e/scratchpad/ecc/skills/skill-stocktake/scripts/save-results.sh",
+      "sourceRelativePath": "skills/skill-stocktake/scripts/save-results.sh",
+      "destinationPath": "/home/user/B-cherkeller/.claude/skills/skill-stocktake/scripts/save-results.sh",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "250968532dc3bf1074f024a710d5d8aeec930e6798269703072f062fad1905bd"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "skill-skill-stocktake",
+      "sourcePath": "/tmp/claude-0/-home-user-B-cherkeller/c6d7e140-2be2-559b-9d40-66802c9e8b3e/scratchpad/ecc/skills/skill-stocktake/scripts/scan.sh",
+      "sourceRelativePath": "skills/skill-stocktake/scripts/scan.sh",
+      "destinationPath": "/home/user/B-cherkeller/.claude/skills/skill-stocktake/scripts/scan.sh",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "366cbf75ec4ecb7bb1609e843ebb16917d42a81b983ad90cb69341f764456cb6"
+    }
+  ]
+}
